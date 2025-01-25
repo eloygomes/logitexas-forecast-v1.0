@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  # 1. Container NGINX
+  nginx:
+    image: nginx:latest
+    container_name: meu-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    # Nenhum depends_on
+
+  # 2. Container Node
+  node:
+    image: node:latest
+    container_name: meu-node
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/usr/src/app
+    working_dir: /usr/src/app
+    # Ajuste para o comando inicial da sua aplicação Node.js
+    command: npm start
+    # Nenhum depends_on
+
+  # 3. Container MySQL (com persistência)
+  mysql:
+    image: mysql:5.7
+    container_name: meu-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=meubanco
+      - MYSQL_USER=usuario
+      - MYSQL_PASSWORD=senhausuario
+      - MYSQL_ROOT_PASSWORD=senha_root
+    # Montamos um volume named "mysql_data" para armazenar os dados
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # Nenhum depends_on
+
+  # 4. Container Python
+  python:
+    image: python:latest
+    container_name: meu-python
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./py:/app
+    working_dir: /app
+    # Ajuste para o comando inicial da sua aplicação Python
+    command: python main.py
+    # Nenhum depends_on
+
+# Declaração do volume para persistência do MySQL
+volumes:
+  mysql_data:
