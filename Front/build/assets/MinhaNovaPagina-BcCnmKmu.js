@@ -1,0 +1,1 @@
+import{j as a}from"./index-BoZR9zCE.js";import{C as r,a as i}from"./CCardBody-DpsCLZ4f.js";import{C as n}from"./CCardHeader-C8nAzjEk.js";const e=()=>a.jsx("div",{children:a.jsxs(r,{children:[a.jsx(n,{children:"Minha Nova Página"}),a.jsx(i,{children:a.jsx("h1",{children:"Bem-vindo à minha nova página!"})})]})});export{e as default};

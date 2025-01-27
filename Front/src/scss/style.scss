@@ -1,15 +1,21 @@
-// If you want to override variables do it here
-@import "variables";
 
-// Import styles
+// style.scss
+
+// 1) Se você quer sobrescrever (override) as variáveis do CoreUI,
+//    importe-as ANTES do coreui (pode ser aqui ou no "variables.scss").
+@import "variables";
+@import "custom";  // <--- Arquivo onde vamos colocar $sidebar-bg, etc.
+
+// 2) Agora sim, importe o CoreUI
 @import "@coreui/coreui/scss/coreui";
 @import "@coreui/chartjs/scss/coreui-chartjs";
 
-// Vendors
+// 3) Vendors
 @import "vendors/simplebar";
 
-// Custom styles for this theme
+// 4) Custom styles para o tema
 @import "theme";
 
-// If you want to add custom CSS you can put it here
-@import "custom";
+// 5) Se precisar colocar CSS puro no final, poderia criar outro arquivo
+//    ou usar o próprio "theme" / "custom" (mas no estilo de CSS final).
+//    (Ou deixar como está se não quiser mais nada).

@@ -1,1 +1,33 @@
-// Here you can add other styles
+
+
+
+// cor de fundo //
+
+// $sidebar-bg: #ff9900; 
+$sidebar-bg: #00FDCF; 
+// $sidebar-bg: #00B8FC; 
+// $sidebar-bg: #BEBEBE; 
+// $sidebar-bg: #0D3A38; 
+// $sidebar-bg: #D6F5F0; 
+// $sidebar-bg: #F3F1EC; 
+
+
+// Cor do texto //
+$sidebar-nav-link-color: orange; 
+
+// Cor dos links hover //
+$sidebar-nav-link-hover-color: #067ec3;   
+
+$sidebar-nav-icon-active-color: aqua; 
+
+// Cor dos links selecionados   //
+$sidebar-nav-link-active-color: red;  // Cor dos links ativos
+
+
+.my-own-sidebar {
+    --cui-sidebar-bg: #ff9900;
+    --cui-sidebar-color: #000;
+    --cui-sidebar-nav-link-color: #000;
+    --cui-sidebar-nav-link-hover-color: #333;
+    --cui-sidebar-nav-link-active-color: #fff;
+  }

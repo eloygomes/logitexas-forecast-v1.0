@@ -1,11 +1,11 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import SimpleBar from 'simplebar-react'
-import 'simplebar-react/dist/simplebar.min.css'
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
-import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
+import { CBadge, CNavLink, CSidebarNav } from "@coreui/react";
 
 export const AppSidebarNav = ({ items }) => {
   const navLink = (name, icon, badge, indent = false) => {
@@ -14,7 +14,7 @@ export const AppSidebarNav = ({ items }) => {
         {icon
           ? icon
           : indent && (
-              <span className="nav-icon">
+              <span className="nav-icon mt-10">
                 <span className="nav-icon-bullet"></span>
               </span>
             )}
@@ -25,18 +25,18 @@ export const AppSidebarNav = ({ items }) => {
           </CBadge>
         )}
       </>
-    )
-  }
+    );
+  };
 
   const navItem = (item, index, indent = false) => {
-    const { component, name, badge, icon, ...rest } = item
-    const Component = component
+    const { component, name, badge, icon, ...rest } = item;
+    const Component = component;
     return (
       <Component as="div" key={index}>
         {rest.to || rest.href ? (
           <CNavLink
             {...(rest.to && { as: NavLink })}
-            {...(rest.href && { target: '_blank', rel: 'noopener noreferrer' })}
+            {...(rest.href && { target: "_blank", rel: "noopener noreferrer" })}
             {...rest}
           >
             {navLink(name, icon, badge, indent)}
@@ -45,29 +45,37 @@ export const AppSidebarNav = ({ items }) => {
           navLink(name, icon, badge, indent)
         )}
       </Component>
-    )
-  }
+    );
+  };
 
   const navGroup = (item, index) => {
-    const { component, name, icon, items, to, ...rest } = item
-    const Component = component
+    const { component, name, icon, items, to, ...rest } = item;
+    const Component = component;
     return (
-      <Component compact as="div" key={index} toggler={navLink(name, icon)} {...rest}>
+      <Component
+        compact
+        as="div"
+        key={index}
+        toggler={navLink(name, icon)}
+        {...rest}
+      >
         {item.items?.map((item, index) =>
-          item.items ? navGroup(item, index) : navItem(item, index, true),
+          item.items ? navGroup(item, index) : navItem(item, index, true)
         )}
       </Component>
-    )
-  }
+    );
+  };
 
   return (
     <CSidebarNav as={SimpleBar}>
       {items &&
-        items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
+        items.map((item, index) =>
+          item.items ? navGroup(item, index) : navItem(item, index)
+        )}
     </CSidebarNav>
-  )
-}
+  );
+};
 
 AppSidebarNav.propTypes = {
   items: PropTypes.arrayOf(PropTypes.any).isRequired,
-}
+};
