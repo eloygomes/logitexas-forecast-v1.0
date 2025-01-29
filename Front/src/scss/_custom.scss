@@ -34,6 +34,7 @@ $dark: #343A40 !default;         // cor "dark" no modo claro
 $border-color: #0A737D !default;            // cor de borda padrão no tema claro
 $border-color-translucent: rgba(#000, .15) !default; // borda semitransparente
 
+
 // Cores de texto secundário e terciário
 $body-secondary-color: rgba(#033F47, .6) !default;  // texto secundário no claro
 $body-tertiary-color: rgba(#033F47, .38) !default;  // texto terciário no claro
@@ -48,27 +49,27 @@ $body-emphasis-color: #033F47 !default; // cor de texto para destaque máximo no
 // Cabeçalhos (headings)
 $headings-color: inherit !default; // cor de headings (pode ser `inherit` ou definido)
 
-// Exemplos para componentes específicos (opcional, se precisar)
 
-// Navbar
-//$navbar-bg: #B9F3F8 !default;       // fundo da navbar no tema claro
-//$navbar-color: #033F47 !default;    // texto da navbar no tema claro
 
-// Cards
-//$card-bg: #D7F3F7 !default;         // fundo de cards no tema claro
-//$card-color: #033F47 !default;      // texto de cards no tema claro
 
-// Footer
-//$footer-bg: #B9F3F8 !default;       // fundo do footer no tema claro
-//$footer-color: #033F47 !default;    // texto do footer no tema claro
+
+
+$color1: #5a7575 !default;
+$color2: #728d8d !default;
+$color3: #89a5a5 !default;
+$color4: #a1bdbd !default;
+$color5: #b8d5d5 !default;
 
 
 
 // 3) Sobrescrever Tema Escuro (dark)
 
 // Fundo do corpo (body)
-$body-bg-dark: #00B8FC !default;     // fundo geral do tema escuro
-$body-color-dark: #0D3A38 !default;  // cor do texto principal no tema escuro
+$body-bg-dark: $color1 !default;     // fundo geral do tema escuro                                          <-- BACKGROUND
+$body-secondary-bg-dark: $color5 !default;                                                                 // <-- BACKGROUND OF BARS
+$card-bg-dark: lightgreen !default;
+
+$body-color-dark: $color5 !default;  // cor do texto principal no tema escuro                                 <-- TEXTO PRINCIPAL
 
 // Links
 $link-color-dark: red !default;      // cor padrão dos links no tema escuro
@@ -85,35 +86,47 @@ $light-dark: #d6d6d6 !default;       // cor light no modo escuro
 $dark-dark: #1c1c1c !default;        // cor dark no modo escuro
 
 // Bordas
-$border-color-dark: #0c6773 !default;            // cor de borda padrão no tema escuro
+$border-color-dark: #0c6773 !default;            // cor de borda padrão no tema escuro                        <-- LINHAS
 $border-color-translucent-dark: rgba(#000, .1) !default; // cor de borda semitransparente no modo escuro
 
 // Cores de texto secundário e terciário
-$body-secondary-color-dark: rgba(#0d3a38, .6) !default; // cor de texto secundário no tema escuro
-$body-tertiary-color-dark:  rgba(#0d3a38, .38) !default; // cor de texto terciário no tema escuro
+$body-secondary-color-dark: rgba($color5, .6) !default; // cor de texto secundário no tema escuro               <-- SUBTITULO
+$body-tertiary-color-dark:  rgba($color5, .38) !default; // cor de texto terciário no tema escuro               <-- ICONES E SUBTITULOSz
 
 // Fundos secundários e terciários
 $body-secondary-bg-dark: #00aac7 !default;   // fundo secundário (ex. para caixas, inputs)
 $body-tertiary-bg-dark:  #009ab2 !default;   // fundo terciário (ex. hover ou áreas menos importantes)
 
 // Texto enfático (titles, strong emphasis)
-$body-emphasis-color-dark: #0d3a38 !default; // cor de texto para destaque máximo no tema escuro
+$body-emphasis-color-dark: $color5 !default; // cor de texto para destaque máximo no tema escuro               <-- TITULO
 
 // Cabeçalhos (headings)
 $headings-color-dark: inherit !default;  // cor dos <h1>, <h2>, etc. (pode ser `inherit` ou definido)
 
-// Exemplos para componentes específicos (opcional, se precisar)
 
-// Navbar
-//$navbar-bg-dark: #008fb2 !default;         // fundo da navbar no tema escuro
-//$navbar-color-dark: #0D3A38 !default;      // texto da navbar no tema escuro
 
-// Cards
-//$card-bg-dark: #00aac7 !default;          // fundo de cards no tema escuro
-//$card-color-dark: #0D3A38 !default;       // texto de cards no tema escuro
 
-// Footer
-//$footer-bg-dark: #008fb2 !default;        // fundo do footer no tema escuro
-//$footer-color-dark: #0D3A38 !default;     // texto do footer no tema escuro
 
+
+// Fonte base
+$font-family-sans-serif: "Open Sans", sans-serif !default; 
+
+
+// Tamanhos de fonte
+$font-size-base: .9rem !default;      // Tamanho base (16px, se 1rem = 16px)
+$font-size-sm: 0.875rem !default;    // Tamanho pequeno
+$font-size-lg: 0.25rem !default;     // Tamanho grande
+
+// Cabeçalhos (opcional, se quiser mudar)
+$h1-font-size: 2.5rem !default;
+$h2-font-size: 2rem !default;
+$h3-font-size: 1.75rem !default;
+
+// Peso da fonte
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-bold: 700 !default;
+
+// Altura de linha
+$line-height-base: 1.5 !default;
 
