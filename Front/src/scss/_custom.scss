@@ -1,24 +1,75 @@
+$white:     #fff !default;
+$gray-base: #323a49 !default;
+$gray-100:  #f3f4f7 !default;
+$gray-200:  #e7eaee !default;
+$gray-300:  #dbdfe6 !default;
+$gray-400:  #cfd4de !default;
+$gray-500:  #aab3c5 !default;
+$gray-600:  #6d7d9c !default;
+$gray-700:  #4a566d !default;
+$gray-800:  #323a49 !default;
+$gray-900:  #212631 !default;
+$black:     #080a0c !default;
 
 
 
-// cor de fundo //
-
-// $sidebar-bg: #ff9900; 
-// $sidebar-bg: #00FDCF; 
-// $sidebar-bg: #00B8FC; 
-// $sidebar-bg: #BEBEBE; 
-// $sidebar-bg: #0D3A38; 
-// $sidebar-bg: #D6F5F0; 
-// $sidebar-bg: #F3F1EC; 
-
-
+$gray-100-dark: $gray-100 !default;
+$gray-200-dark: $gray-200 !default;
+$gray-300-dark: $gray-300 !default;
+$gray-400-dark: $gray-400 !default;
+$gray-500-dark: $gray-500 !default;
+$gray-600-dark: $gray-600 !default;
+$gray-700-dark: $gray-700 !default;
+$gray-800-dark: $gray-800 !default;
+$gray-900-dark: $gray-900 !default;
 
 
-// 2) Sobrescrever Tema Claro (light)
+// // // // // // // // // // // // // // // //
+// // TEMA LIGHT // //  
+// // // // // // // // // // // // // // // //
 
-$body-bg: #E7FDFF !default;      // fundo geral do tema claro
-$body-color: #033F47 !default;   // cor do texto principal no tema claro
-$link-color: #FF0000 !default;   // cor padrão dos links no tema claro
+
+$body-color:                rgba($gray-base, .87) !default;     // cor do texto principal                                                       <-- TEXTO PRINCIPAL
+$body-bg:                   $white !default;       // fundo geral do tema                                                                       <-- BACKGROUND
+$body-secondary-color:      rgba($gray-base, .87) !default; // cor do texto secundario                                                          <-- TEXTO SECUNDARIO
+$body-secondary-bg:         $gray-200 !default;    //                                                                                           <-- BACKGROUND OF BARS
+$body-tertiary-color:       rgba($gray-base, .87) !default; // cor dos icones e titulos na sidebar                                              <-- TEXTO TERCIARIO
+$body-tertiary-bg:          $gray-100 !default; // cor do fundo do container principal                                                          <-- BACKGROUND OF CONTAINER OF CONTENT
+
+$link-color:              gold !default;      // cor padrão dos links no tema escuro                                                          <-- COR DOS LINK
+$link-hover-color:        #ff7070 !default; // cor de hover dos links no tema escuro (exemplo)                                                <-- HOVER DOS LINKs
+
+// Bordas
+// $border-color:             #0c6773 !default;            // cor de borda padrão no tema escuro                                                <-- LINHAS
+$border-color-translucent-dark:     rgba(#000, .1) !default; // cor de borda semitransparente no modo escuro                                  <-- HOVER DOS LINKs
+
+// Texto enfático (titles, strong emphasis)
+$body-emphasis-color:          $gray-900-dark !default; // cor de texto para destaque máximo no tema escuro                                     <-- TITULO
+
+
+
+// // // // // // // // // // // // // // // //
+// // TEMA DARK // // 
+// // // // // // // // // // // // // // // //
+
+
+$body-color-dark:                   rgba($white, .87) !default;     // cor do texto principal no tema escuro                                    <-- TEXTO PRINCIPAL
+$body-bg-dark:                      $gray-900-dark !default;   // fundo geral do tema                                                           <-- BACKGROUND
+$body-secondary-color-dark:         rgba($white, .6) !default;
+$body-secondary-bg-dark:            $gray-800-dark !default;    //                                                                              <-- BACKGROUND OF BARS
+$body-tertiary-color-dark:          rgba($white, .38) !default;
+$body-tertiary-bg-dark:             mix($gray-800-dark, #212631, 50%) !default;  //                                                           <-- BACKGROUND OF BARS
+
+$link-color-dark:                   gold !default;      // cor padrão dos links no tema escuro                                                <-- COR DOS LINK
+$link-hover-color-dark:             #ff7070 !default; // cor de hover dos links no tema escuro (exemplo)       
+
+// Bordas
+// $border-color-dark:              #0c6773 !default;            // cor de borda padrão no tema escuro                                          <-- LINHAS
+$border-color-translucent-dark:     rgba(#000, .1) !default; // cor de borda semitransparente no modo escuro                                  <-- HOVER DOS LINKs
+
+// Texto enfático (titles, strong emphasis)
+$body-emphasis-color-dark:          $gray-900-dark !default; // cor de texto para destaque máximo no tema escuro                                <-- TITULO
+
 
 // Cores principais do tema (theme colors)
 $primary: #00A0DC !default;      // cor "primary" no modo claro
@@ -29,83 +80,6 @@ $warning: #D9AD0C !default;      // cor "warning" no modo claro
 $danger: #D90C2A !default;       // cor "danger" no modo claro
 $light: #EDEDED !default;        // cor "light" no modo claro
 $dark: #343A40 !default;         // cor "dark" no modo claro
-
-// Bordas
-$border-color: #0A737D !default;            // cor de borda padrão no tema claro
-$border-color-translucent: rgba(#000, .15) !default; // borda semitransparente
-
-
-// Cores de texto secundário e terciário
-$body-secondary-color: rgba(#033F47, .6) !default;  // texto secundário no claro
-$body-tertiary-color: rgba(#033F47, .38) !default;  // texto terciário no claro
-
-// Fundos secundários e terciários
-$body-secondary-bg: #D7F3F7 !default;  // fundo secundário (ex. para caixas/inputs)
-$body-tertiary-bg: #C3EBEE !default;   // fundo terciário (ex. hover ou áreas menos importantes)
-
-// Texto enfático (titles, strong emphasis)
-$body-emphasis-color: #033F47 !default; // cor de texto para destaque máximo no tema claro
-
-// Cabeçalhos (headings)
-$headings-color: inherit !default; // cor de headings (pode ser `inherit` ou definido)
-
-
-
-
-
-
-$color1: #5a7575 !default;
-$color2: #728d8d !default;
-$color3: #89a5a5 !default;
-$color4: #a1bdbd !default;
-$color5: #b8d5d5 !default;
-
-
-
-// 3) Sobrescrever Tema Escuro (dark)
-
-// Fundo do corpo (body)
-$body-bg-dark: $color1 !default;     // fundo geral do tema escuro                                          <-- BACKGROUND
-$body-secondary-bg-dark: $color5 !default;                                                                 // <-- BACKGROUND OF BARS
-$card-bg-dark: lightgreen !default;
-
-$body-color-dark: $color5 !default;  // cor do texto principal no tema escuro                                 <-- TEXTO PRINCIPAL
-
-// Links
-$link-color-dark: red !default;      // cor padrão dos links no tema escuro
-$link-hover-color-dark: #ff7070 !default; // cor de hover dos links no tema escuro (exemplo)
-
-// Cores principais do tema (theme colors)
-$primary-dark: #007dc2 !default;     // cor primary no modo escuro
-$secondary-dark: #8e8e8e !default;   // cor secondary no modo escuro
-$success-dark: #0f7149 !default;     // cor success no modo escuro
-$info-dark: #0aa7c2 !default;        // cor info no modo escuro
-$warning-dark: #c29d0a !default;     // cor warning no modo escuro
-$danger-dark: #c20a1c !default;      // cor danger no modo escuro
-$light-dark: #d6d6d6 !default;       // cor light no modo escuro
-$dark-dark: #1c1c1c !default;        // cor dark no modo escuro
-
-// Bordas
-$border-color-dark: #0c6773 !default;            // cor de borda padrão no tema escuro                        <-- LINHAS
-$border-color-translucent-dark: rgba(#000, .1) !default; // cor de borda semitransparente no modo escuro
-
-// Cores de texto secundário e terciário
-$body-secondary-color-dark: rgba($color5, .6) !default; // cor de texto secundário no tema escuro               <-- SUBTITULO
-$body-tertiary-color-dark:  rgba($color5, .38) !default; // cor de texto terciário no tema escuro               <-- ICONES E SUBTITULOSz
-
-// Fundos secundários e terciários
-$body-secondary-bg-dark: #00aac7 !default;   // fundo secundário (ex. para caixas, inputs)
-$body-tertiary-bg-dark:  #009ab2 !default;   // fundo terciário (ex. hover ou áreas menos importantes)
-
-// Texto enfático (titles, strong emphasis)
-$body-emphasis-color-dark: $color5 !default; // cor de texto para destaque máximo no tema escuro               <-- TITULO
-
-// Cabeçalhos (headings)
-$headings-color-dark: inherit !default;  // cor dos <h1>, <h2>, etc. (pode ser `inherit` ou definido)
-
-
-
-
 
 
 // Fonte base
