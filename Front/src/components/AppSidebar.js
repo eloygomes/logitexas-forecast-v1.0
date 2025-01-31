@@ -38,7 +38,7 @@ const AppSidebar = () => {
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand to="/">
           {/* <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} /> */}
-          <p>ashidush</p>
+          <p>LOGIHUB</p>
 
           <CIcon
             customClassName="sidebar-brand-narrow"

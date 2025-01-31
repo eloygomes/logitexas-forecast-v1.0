@@ -24,17 +24,25 @@ $gray-800-dark: $gray-800 !default;
 $gray-900-dark: $gray-900 !default;
 
 
+$azul: rgba(17,38,79) !default;
+$gelo: #E9EDF5 !default;
+
+
+
 // // // // // // // // // // // // // // // //
 // // TEMA LIGHT // //  
 // // // // // // // // // // // // // // // //
 
 
-$body-color:                rgba($gray-base, .87) !default;     // cor do texto principal                                                       <-- TEXTO PRINCIPAL
-$body-bg:                   $white !default;       // fundo geral do tema                                                                       <-- BACKGROUND
-$body-secondary-color:      rgba($gray-base, .87) !default; // cor do texto secundario                                                          <-- TEXTO SECUNDARIO
-$body-secondary-bg:         $gray-200 !default;    //                                                                                           <-- BACKGROUND OF BARS
-$body-tertiary-color:       rgba($gray-base, .87) !default; // cor dos icones e titulos na sidebar                                              <-- TEXTO TERCIARIO
-$body-tertiary-bg:          $gray-100 !default; // cor do fundo do container principal                                                          <-- BACKGROUND OF CONTAINER OF CONTENT
+// cor do texto principal                                                       <-- TEXTO PRINCIPAL
+$body-color:                $gelo !default;     
+$body-bg:                   $azul !default;       
+
+$body-secondary-color:      $gelo !default; // cor do texto secundario                                                          <-- TEXTO SECUNDARIO
+$body-secondary-bg:         $azul !default;    //                                                                                           <-- BACKGROUND OF BARS
+
+$body-tertiary-color:       $gelo !default; // cor dos icones e titulos na sidebar                                              <-- TEXTO TERCIARIO
+$body-tertiary-bg:          $gelo !default; 
 
 $link-color:              gold !default;      // cor padrão dos links no tema escuro                                                          <-- COR DOS LINK
 $link-hover-color:        #ff7070 !default; // cor de hover dos links no tema escuro (exemplo)                                                <-- HOVER DOS LINKs
@@ -48,27 +56,7 @@ $body-emphasis-color:          $gray-900-dark !default; // cor de texto para des
 
 
 
-// // // // // // // // // // // // // // // //
-// // TEMA DARK // // 
-// // // // // // // // // // // // // // // //
 
-
-$body-color-dark:                   rgba($white, .87) !default;     // cor do texto principal no tema escuro                                    <-- TEXTO PRINCIPAL
-$body-bg-dark:                      $gray-900-dark !default;   // fundo geral do tema                                                           <-- BACKGROUND
-$body-secondary-color-dark:         rgba($white, .6) !default;
-$body-secondary-bg-dark:            $gray-800-dark !default;    //                                                                              <-- BACKGROUND OF BARS
-$body-tertiary-color-dark:          rgba($white, .38) !default;
-$body-tertiary-bg-dark:             mix($gray-800-dark, #212631, 50%) !default;  //                                                           <-- BACKGROUND OF BARS
-
-$link-color-dark:                   gold !default;      // cor padrão dos links no tema escuro                                                <-- COR DOS LINK
-$link-hover-color-dark:             #ff7070 !default; // cor de hover dos links no tema escuro (exemplo)       
-
-// Bordas
-// $border-color-dark:              #0c6773 !default;            // cor de borda padrão no tema escuro                                          <-- LINHAS
-$border-color-translucent-dark:     rgba(#000, .1) !default; // cor de borda semitransparente no modo escuro                                  <-- HOVER DOS LINKs
-
-// Texto enfático (titles, strong emphasis)
-$body-emphasis-color-dark:          $gray-900-dark !default; // cor de texto para destaque máximo no tema escuro                                <-- TITULO
 
 
 // Cores principais do tema (theme colors)
@@ -87,7 +75,7 @@ $font-family-sans-serif: "Open Sans", sans-serif !default;
 
 
 // Tamanhos de fonte
-$font-size-base: .9rem !default;      // Tamanho base (16px, se 1rem = 16px)
+$font-size-base: .8rem !default;      // Tamanho base (16px, se 1rem = 16px)
 $font-size-sm: 0.875rem !default;    // Tamanho pequeno
 $font-size-lg: 0.25rem !default;     // Tamanho grande
 
