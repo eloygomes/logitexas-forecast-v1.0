@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DataTable from "./DataTable";
+import DataTable from "./DataTable.jsx";
 
-export default function UploadContentUploadContent() {
-  // Initial mock data for the spreadsheets (corresponds to table columns)
+export default function UC() {
+  // Dados iniciais para a tabela (exemplo)
   const [files, setFiles] = useState([
     {
       id: 1,
@@ -24,31 +24,58 @@ export default function UploadContentUploadContent() {
     },
   ]);
 
-  // Handle file upload from the dropzone
-  const handleFileUpload = (e) => {
+  // Função para enviar o arquivo para a API usando fetch
+  const sendFileToAPI = async (file) => {
+    const formData = new FormData();
+    // Importante: o nome do campo é "planilha", conforme configurado no multer
+    formData.append("planilha", file);
+
+    try {
+      const response = await fetch("https://api.logihub.space/api/upload", {
+        method: "POST",
+        body: formData,
+        // Não é necessário definir 'Content-Type' quando se usa FormData
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Upload realizado com sucesso:", data);
+    } catch (error) {
+      console.error("Erro ao enviar o arquivo para a API:", error);
+    }
+  };
+
+  // Função que lida com o upload do arquivo via input
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Create a new file object with a unique id, file name, default uploader and current date
+      // Cria um objeto para atualizar a tabela com as informações do arquivo
       const newFile = {
-        id: files.length + 1, // Simple id generation
+        id: files.length + 1, // Geração simples de id
         spreadsheetName: file.name,
-        uploadBy: "User", // You can customize this based on your app’s logic
-        uploadDate: new Date().toISOString().slice(0, 10), // Format: YYYY-MM-DD
+        uploadBy: "User", // Você pode personalizar conforme necessário
+        uploadDate: new Date().toISOString().slice(0, 10), // Formato: YYYY-MM-DD
       };
+      // Atualiza o estado para exibir o arquivo na DataTable
       setFiles([...files, newFile]);
+      // Envia o arquivo para a API
+      await sendFileToAPI(file);
     }
   };
 
   return (
     <div className="px-4 pt-6">
-      <h1 className="text-white text-4xl  sm:pl-2 md:pl-10 lg:pl-10 xl:pl-10 pt-10">
+      <h1 className="text-white text-4xl sm:pl-2 md:pl-10 lg:pl-10 xl:pl-10 pt-10">
         Media Center
       </h1>
       <p className="text-white my-5 text-sm sm:pl-2 md:pl-10 lg:pl-10 xl:pl-10">
         Upload and manage your media content
       </p>
       <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row">
-        {/* Left: File Upload / Information */}
+        {/* Left: Upload e informações */}
         <div className="w-full sm:w-full md:w-1/3 lg:w-1/3 xl:w-1/3 flex flex-col sm:pl-2 md:pl-10 lg:pl-10 xl:pl-10 sm:pr-2 md:pr-10 lg:pr-10 xl:pr-10">
           <div className="flex items-center justify-center w-full">
             <label
@@ -76,12 +103,13 @@ export default function UploadContentUploadContent() {
                   and drop
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                  CSV, XLS or XLSX (MAX. 10MB)
                 </p>
               </div>
               <input
                 id="dropzone-file"
                 type="file"
+                accept=".csv, .xls, .xlsx"
                 className="hidden"
                 onChange={handleFileUpload}
               />
@@ -95,7 +123,7 @@ export default function UploadContentUploadContent() {
           </p>
         </div>
 
-        {/* Right: DataTable displaying the spreadsheets */}
+        {/* Right: DataTable exibindo os arquivos */}
         <div className="w-full sm:w-full md:w-2/3 lg:w-2/3 xl:w-2/3">
           <DataTable files={files} />
         </div>
