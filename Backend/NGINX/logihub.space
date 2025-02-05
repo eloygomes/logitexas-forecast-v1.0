@@ -1,18 +1,19 @@
 server {
     listen 80;
     listen [::]:80;
-
     server_name logihub.space www.logihub.space;
 
-    # Redirecionar todas as solicitações HTTP para HTTPS
+    client_max_body_size 30M;
+
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-
     server_name logihub.space www.logihub.space;
+
+    client_max_body_size 30M;
 
     ssl_certificate /etc/letsencrypt/live/logihub.space/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/logihub.space/privkey.pem;
@@ -20,7 +21,7 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
-        proxy_pass http://localhost:8080;
+        proxy_pass http://localhost:8080;  # Certifique-se de que o proxy_pass aponta para o serviço correto
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
