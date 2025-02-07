@@ -1,4 +1,4 @@
-import type { endpointsToOperations } from '../pages/api/[...entity].js';
+import type { endpointsToOperations } from '../pages/api/_api.js';
 import type { playgroundActions } from '../pages/playground/_actions.js';
 
 export type EndpointsToOperations = typeof endpointsToOperations;

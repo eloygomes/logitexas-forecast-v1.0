@@ -2,27 +2,35 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+
 const DEV_PORT = 2121;
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.CI
-    ? "https://themesberg.github.io"
-    : `http://localhost:${DEV_PORT}`,
-  base: process.env.CI ? "/flowbite-astro-admin-dashboard" : undefined,
-  // output: 'server',
+  // Seu domínio real
+  site: "https://logihub.space",
 
-  /* Like Vercel, Netlify,… Mimicking for dev. server */
-  // trailingSlash: 'always',
+  // Gera arquivos estáticos para hospedagem (SSG)
+  output: "static",
+
+  build: {
+    rollupOptions: {
+      output: {
+        // Opcional: Divide pacotes grandes em "vendor" e "common"
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+          return "common";
+        },
+      },
+    },
+  },
 
   server: {
-    /* Dev. server only */
-    port: DEV_PORT,
+    port: DEV_PORT, // Apenas para desenvolvimento local
   },
-  integrations: [
-    //
-    sitemap(),
-    tailwind(),
-    react(),
-  ],
+
+  integrations: [sitemap(), tailwind(), react()],
+  middleware: ["src/middleware/auth.ts"], // Ativando o middleware
 });

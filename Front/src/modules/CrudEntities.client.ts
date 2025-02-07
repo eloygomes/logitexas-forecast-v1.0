@@ -2,7 +2,8 @@
 
 import type { Endpoint } from '../types/entities.js';
 import { fetchData } from '../lib/data.js';
-import { endpointsToOperations } from '../pages/api/[...entity].js';
+import { endpointsToOperations } from '../pages/api/_api.js';
+
 
 export class CrudEntities extends HTMLElement {
 	#body = this.querySelector('tbody')!;
