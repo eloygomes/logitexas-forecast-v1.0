@@ -59,7 +59,7 @@ import SearchInput from "../components/SearchInput.astro";
       </div>
 
       <div class="flex items-center">
-        <GitHubButton repository="themesberg/flowbite-astro-admin-dashboard" />
+        <!-- <GitHubButton repository="themesberg/flowbite-astro-admin-dashboard" /> -->
 
         <!-- Search mobile -->
         <button
@@ -637,6 +637,7 @@ import SearchInput from "../components/SearchInput.astro";
               <li>
                 <a
                   href="#"
+                  onclick="localStorage.removeItem('token'); window.location.href='/authentication/sign-in'; return false;"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                   role="menuitem">Sign out</a
                 >

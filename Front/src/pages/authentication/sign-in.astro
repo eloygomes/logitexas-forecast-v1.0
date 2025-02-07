@@ -1,10 +1,12 @@
 ---
-import LayoutStacked from '../../app/LayoutStacked.astro';
-import FormSignIn from '../../modules/FormSignIn.astro';
+import LayoutStacked from "../../app/LayoutStacked.astro";
+import FormSignIn from "../../modules/FormSignIn.astro";
+import SI from "../../modules/SignIn/SignIn.jsx";
 ---
 
 <LayoutStacked>
-	<div class="min-h-screen align-middle flex pb-[12vh]">
-		<FormSignIn />
-	</div>
+  <div class="min-h-screen align-middle flex pb-[12vh]">
+    <!-- <FormSignIn /> -->
+    <SI client:load />
+  </div>
 </LayoutStacked>

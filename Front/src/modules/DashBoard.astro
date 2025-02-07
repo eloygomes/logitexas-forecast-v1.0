@@ -4,6 +4,15 @@
 import { asset } from "../lib/data";
 ---
 
+<script is:inline>
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/authentication/sign-in";
+    }
+  }
+</script>
+
 <div class="px-4 pt-6">
   <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3">
     <!-- Main widget -->
