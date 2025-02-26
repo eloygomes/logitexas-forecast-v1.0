@@ -1,0 +1,18 @@
+---
+import LayoutSidebar from "../../app/LayoutSidebar.astro";
+import Forecast_ from "../../modules/forecast/Forecast_";
+import UC from "../../modules/uploadThing/UploadContent.jsx";
+---
+
+<script is:inline>
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/authentication/sign-in";
+    }
+  }
+</script>
+
+<LayoutSidebar>
+  <Forecast_ client:load />
+</LayoutSidebar>
