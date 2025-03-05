@@ -1,6 +1,8 @@
 ---
 import LayoutSidebar from "../../app/LayoutSidebar.astro";
-import Forecast_ from "../../modules/forecast/Forecast_";
+import LayoutStacked from "../../app/LayoutStacked.astro";
+
+import Forecast from "../../modules/forecast/Forecast.jsx";
 import UC from "../../modules/uploadThing/UploadContent.jsx";
 ---
 
@@ -13,6 +15,9 @@ import UC from "../../modules/uploadThing/UploadContent.jsx";
   }
 </script>
 
-<LayoutSidebar>
-  <Forecast_ client:load />
-</LayoutSidebar>
+<!-- <LayoutSidebar>
+  <Forecast client:load />
+</LayoutSidebar> -->
+<LayoutStacked>
+  <Forecast client:load />
+</LayoutStacked>
