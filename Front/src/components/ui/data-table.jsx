@@ -26,9 +26,9 @@ export function DataTable({ columns, data, meta }) {
   return (
     <div className="overflow-auto rounded-md">
       <table className="min-w-full border-collapse dark:text-white ">
-        <thead className="bg-gray-200 dark:bg-gray-800 text-md truncate">
+        <thead className="bg-[#374151] text-md truncate">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b dark:border-gray-700">
+            <tr key={headerGroup.id} className="border-b dark:border-gray-900">
               {headerGroup.headers.map((header) => {
                 const sortDir = header.column.getIsSorted();
                 return (

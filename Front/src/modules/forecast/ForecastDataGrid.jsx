@@ -28,15 +28,27 @@ export default function ForecastDataGrid() {
 
   return (
     <div className="p-4 space-y-4">
-      <h1 className="text-xl font-bold text-black">Forecast Data Grid</h1>
-      <input
-        type="text"
-        placeholder="Buscar na tabela..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="max-w-sm border p-2 rounded-md"
-      />
-      {/* Passa via meta a função updateData para as células */}
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col">
+          <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
+            Forecast by Client
+          </h1>
+          <h2 className="w-1/2 py-2 text-sm text-[#9ca3af]">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab,
+            molestias blanditiis quam voluptas odio repudiandae? Impedit quis,
+            hic quidem recusandae cupiditate autem nostrum quo incidunt sapiente
+            tempore pariatur, consequuntur quae?
+          </h2>
+        </div>
+        <input
+          type="text"
+          placeholder="Buscar na tabela..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="max-w-sm border p-2 rounded-md"
+        />
+      </div>
+
       <DataTable columns={columns} data={filteredData} meta={{ updateData }} />
     </div>
   );
