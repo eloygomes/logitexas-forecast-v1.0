@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-// EditableCell component
+// Componente para edição inline de célula
 function EditableCell({ initialValue, onChange }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -30,15 +30,15 @@ function EditableCell({ initialValue, onChange }) {
 }
 
 // Definindo 10 colunas com edição inline
-export const columns = [
+export const columns_tab3 = [
   {
-    accessorKey: "cliente_t2",
-    header: "Cliente T2",
+    accessorKey: "estoque_proj_q2fy26",
+    header: "Estoque Proj Q2FY26",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "cliente_t2", val);
+        table.options.meta?.updateData(row.index, "estoque_proj_q2fy26", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -46,13 +46,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "vendedor",
-    header: "Vendedor",
+    accessorKey: "woh_q2fy26",
+    header: "WOH Q2FY26",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "vendedor", val);
+        table.options.meta?.updateData(row.index, "woh_q2fy26", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -60,13 +60,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "gerente",
-    header: "Gerente",
+    accessorKey: "julho",
+    header: "Julho",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "gerente", val);
+        table.options.meta?.updateData(row.index, "julho", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -74,13 +74,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "categoria_produto",
-    header: "Categoria Produto",
+    accessorKey: "agosto",
+    header: "Agosto",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "categoria_produto", val);
+        table.options.meta?.updateData(row.index, "agosto", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -88,13 +88,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "subcategoria",
-    header: "Subcategoria",
+    accessorKey: "setembro",
+    header: "Setembro",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "subcategoria", val);
+        table.options.meta?.updateData(row.index, "setembro", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -102,13 +102,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "cod_produto",
-    header: "Cód Produto",
+    accessorKey: "total_q2fy26",
+    header: "TotalQ2FY26",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "cod_produto", val);
+        table.options.meta?.updateData(row.index, "total_q2fy26", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -116,13 +116,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "descricao_produto",
-    header: "Descrição Produto",
+    accessorKey: "fcst_evento_q2fy26",
+    header: "Fcst Evento Q2FY26",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "descricao_produto", val);
+        table.options.meta?.updateData(row.index, "fcst_evento_q2fy26", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -130,13 +130,13 @@ export const columns = [
     },
   },
   {
-    accessorKey: "tipo_fcst",
-    header: "Tipo fcst",
+    accessorKey: "total_fcst_q2fy26",
+    header: "Total Fcst Q2FY26",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "tipo_fcst", val);
+        table.options.meta?.updateData(row.index, "total_fcst_q2fy26", val);
       };
       return (
         <EditableCell initialValue={initialValue} onChange={handleChange} />
@@ -144,36 +144,30 @@ export const columns = [
     },
   },
   {
-    accessorKey: "valor",
-    header: "Valor R$",
+    accessorKey: "so_ly",
+    header: "SO LY",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "valor", val);
+        table.options.meta?.updateData(row.index, "so_ly", val);
       };
       return (
-        <EditableCell
-          initialValue={String(initialValue)}
-          onChange={handleChange}
-        />
+        <EditableCell initialValue={initialValue} onChange={handleChange} />
       );
     },
   },
   {
-    accessorKey: "valor_brl",
-    header: "Valor BRL",
+    accessorKey: "pct_yoy",
+    header: "% YoY",
     enableSorting: true,
     cell: ({ row, getValue, table }) => {
       const initialValue = getValue();
       const handleChange = (val) => {
-        table.options.meta?.updateData(row.index, "valor_brl", val);
+        table.options.meta?.updateData(row.index, "pct_yoy", val);
       };
       return (
-        <EditableCell
-          initialValue={String(initialValue)}
-          onChange={handleChange}
-        />
+        <EditableCell initialValue={initialValue} onChange={handleChange} />
       );
     },
   },
