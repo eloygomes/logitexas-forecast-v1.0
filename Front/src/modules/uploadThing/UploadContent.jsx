@@ -43,8 +43,6 @@ export default function UC() {
     fetchFiles();
   }, []);
 
-  // Função para enviar o arquivo para a API.
-  // Função para enviar o arquivo para a API.
   const sendFileToAPI = async (file) => {
     const formData = new FormData();
     formData.append("planilha", file);

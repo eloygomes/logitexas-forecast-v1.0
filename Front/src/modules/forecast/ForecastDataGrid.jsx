@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 
 // import { columns } from "./columns";
 
 export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([...initialData]);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setData(initialData);
+  }, []);
 
   // Função para atualizar a célula editada
   function updateData(rowIndex, columnId, value) {
+    // console.log(rowIndex, columnId, value);
     setData((old) => {
       const newData = [...old];
       newData[rowIndex] = { ...newData[rowIndex], [columnId]: value };
@@ -22,8 +27,9 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
       .normalize("NFD") // separa em caracteres base + acentos
       .replace(/[\u0300-\u036f]/g, ""); // remove acentos
   }
-
+  console.log(data);
   const filteredData = data.filter((row) => {
+    // console.log(data);
     if (!search.trim()) return true;
 
     const tokens = normalize(search).split(/\s+/);
@@ -37,6 +43,10 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
       Object.values(row).some((val) => normalize(String(val)).includes(token))
     );
   });
+
+  console.log("filteredData", filteredData);
+  console.log("data", data);
+  console.log("initialData", initialData);
 
   return (
     <div className="p-4 space-y-4">
