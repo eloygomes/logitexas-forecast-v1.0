@@ -8,8 +8,8 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    setData(initialData);
-  }, []);
+    setData([...initialData]);
+  }, [initialData]);
 
   // Função para atualizar a célula editada
   function updateData(rowIndex, columnId, value) {
@@ -27,7 +27,7 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
       .normalize("NFD") // separa em caracteres base + acentos
       .replace(/[\u0300-\u036f]/g, ""); // remove acentos
   }
-  console.log(data);
+  // console.log(data);
   const filteredData = data.filter((row) => {
     // console.log(data);
     if (!search.trim()) return true;
@@ -44,9 +44,9 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
     );
   });
 
-  console.log("filteredData", filteredData);
-  console.log("data", data);
-  console.log("initialData", initialData);
+  // console.log("filteredData", filteredData);
+  // console.log("data", data);
+  // console.log("initialData", initialData);
 
   return (
     <div className="p-4 space-y-4">
