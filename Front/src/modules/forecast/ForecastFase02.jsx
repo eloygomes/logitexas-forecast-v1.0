@@ -43,9 +43,9 @@ export default function ForecastFase02() {
           mergedCols
         );
 
-        console.log("Colunas mescladas:", mergedCols);
-        console.log("Linhas", resp.rows);
-        console.log("Dados transformados para a tabela:", transformedData);
+        // console.log("Colunas mescladas:", mergedCols);
+        // console.log("Linhas", resp.rows);
+        // console.log("Dados transformados para a tabela:", transformedData);
 
         setColumnsState(mergedCols);
         setDataState(transformedData);
@@ -74,34 +74,6 @@ export default function ForecastFase02() {
       return { columns: [], rows: [] }; // Retorna arrays vazios para evitar quebra
     }
   };
-
-  // // Mesclar colunas do servidor com estrutura que permite edição inline
-  // const mergeServerColsWithEditStructure = (serverCols) => {
-  //   if (!serverCols || !Array.isArray(serverCols)) {
-  //     console.error("Erro: serverCols inválido", serverCols);
-  //     return [];
-  //   }
-
-  //   const mergedColumns = serverCols.map((srvCol) => {
-  //     const normalizedKey = srvCol.key.trim().toLowerCase();
-
-  //     const found = columns_tab4_faseB.find(
-  //       (colEdit) => colEdit.accessorKey.trim().toLowerCase() === normalizedKey
-  //     );
-
-  //     if (found) {
-  //       return { ...found, header: srvCol.name || found.header };
-  //     } else {
-  //       return {
-  //         accessorKey: srvCol.key,
-  //         header: srvCol.name || srvCol.key,
-  //       };
-  //     }
-  //   });
-
-  //   console.log("Colunas mescladas (verifique os nomes):", mergedColumns);
-  //   return mergedColumns;
-  // };
 
   // Mesclar colunas do servidor com estrutura que permite edição inline
   const mergeServerColsWithEditStructure = (serverCols) => {
@@ -190,7 +162,7 @@ export default function ForecastFase02() {
   return (
     <>
       <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-        <ForecastHeader />
+        <ForecastHeader dataState={dataState} setDataState={setDataState} />
       </div>
 
       <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
