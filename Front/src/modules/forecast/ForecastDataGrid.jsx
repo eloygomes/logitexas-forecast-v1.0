@@ -234,9 +234,9 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
         <div
           data-row-index={row.index}
           data-col-index={colIndex}
-          className={`p-2.5 
-            border-2 rounded 
-            ${isActive ? "bg-yellow-300 border-red-500" : "border-transparent"}`}
+          className={`p-0.5 
+            border-2 rounded-sm 
+            ${isActive ? "bg-gray-600 text-white border-gray-800" : "border-transparent"}`}
           onClick={() => handleCellClick(row.index, colIndex)}
           style={{ boxSizing: "border-box" }}
         >
@@ -264,7 +264,7 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
 
   return (
     <div
-      className="p-4 space-y-4"
+      className="p-4 space-y-4 cursor-pointer"
       ref={containerRef}
       tabIndex={0} // Torna o container focável
       onKeyDown={handleKeyDown} // Captura os eventos de teclado
