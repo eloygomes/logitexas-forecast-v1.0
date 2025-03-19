@@ -33,11 +33,11 @@ export default function ForecastFase02() {
           return;
         }
 
-        console.log("Dados brutos recebidos da API:", resp);
+        // console.log("Dados brutos recebidos da API:", resp);
 
         // Processar colunas e dados
         const mergedCols = mergeServerColsWithEditStructure(resp.columns);
-        console.log("mergedCols", mergedCols);
+        // console.log("mergedCols", mergedCols);
         const transformedData = transformDataToExpectedFormat(
           resp.rows,
           mergedCols
@@ -102,7 +102,7 @@ export default function ForecastFase02() {
       }
     });
 
-    console.log("Colunas mescladas (verifique os nomes):", mergedColumns);
+    // console.log("Colunas mescladas (verifique os nomes):", mergedColumns);
     return mergedColumns;
   };
 

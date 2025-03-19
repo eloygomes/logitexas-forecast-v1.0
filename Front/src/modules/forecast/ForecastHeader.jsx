@@ -424,9 +424,9 @@ export default function ForecastHeader({ dataState, setDataState }) {
           <div className="flex flex-col">
             <label
               htmlFor="partnumber"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 flex-1"
             >
-              Part number
+              PN
             </label>
             <select
               id="partnumber"
