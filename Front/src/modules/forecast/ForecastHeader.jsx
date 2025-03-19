@@ -361,233 +361,234 @@ export default function ForecastHeader({ dataState, setDataState }) {
 
   return (
     <div className="p-4 ">
-      <div className="flex flex-row items-center justify-between">
-        <div className="w-1/2 flex flex-col">
-          <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
-            Forecast
-          </h1>
-          <h2 className="w-1/2 py-2 text-sm text-[#9ca3af]">
-            Use a filter to start
-          </h2>
+      <div className="w-full flex flex-col ">
+        <div className="flex flex-row items-center justify-between">
+          <div className="w-8/12 flex flex-col">
+            <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
+              Forecast
+            </h1>
+            <h2 className="w-1/2 py-2 text-sm text-[#9ca3af]">
+              Use a filter to start
+            </h2>
+          </div>
 
-          <div className="w-10/12 flex flex-wrap mt-5 gap-4">
-            {/* Filtro por Cliente */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="client"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by client
-              </label>
-              <select
-                id="client"
-                name="client"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={clientChangeHandler}
-                value={selectedClient}
-              >
-                <option value="">Selecione</option>
-                {clients.map(
-                  (item, index) =>
-                    item.Cliente && (
-                      <option key={index} value={item.Cliente}>
-                        {item.Cliente}
-                      </option>
-                    )
-                )}
-              </select>
-            </div>
-
-            {/* Filtro por Part Number */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="partnumber"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by part number
-              </label>
-              <select
-                id="partnumber"
-                name="partnumber"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={partNumberChangeHandler}
-                value={selectedPartNumber}
-              >
-                <option value="">Selecione</option>
-                {partNumbers.map(
-                  (item, index) =>
-                    item.Part_Number && (
-                      <option key={index} value={item.Part_Number}>
-                        {item.Part_Number}
-                      </option>
-                    )
-                )}
-              </select>
-            </div>
-
-            {/* Filtro por NAM */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="nam"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by NAM
-              </label>
-              <select
-                id="nam"
-                name="nam"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={namChangeHandler}
-                value={selectedNam}
-              >
-                <option value="">Selecione</option>
-                {namOptions.map((item, index) => (
-                  <option key={index} value={item.NAM}>
-                    {item.NAM}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Filtro por MANAGER */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="manager"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by MANAGER
-              </label>
-              <select
-                id="manager"
-                name="manager"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={managerChangeHandler}
-                value={selectedManager}
-              >
-                <option value="">Selecione</option>
-                {managerOptions.map((item, index) => (
-                  <option key={index} value={item.MANAGER}>
-                    {item.MANAGER}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Filtro por MKT_Name */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="mktName"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by MKT_Name
-              </label>
-              <select
-                id="mktName"
-                name="mktName"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={mktNameChangeHandler}
-                value={selectedMktName}
-              >
-                <option value="">Selecione</option>
-                {mktNameOptions.map((item, index) => (
-                  <option key={index} value={item.MKT_Name}>
-                    {item.MKT_Name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Filtro por Runrate_NPI */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="runrate_npi"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by Runrate_NPI
-              </label>
-              <select
-                id="runrate_npi"
-                name="runrate_npi"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={runrateNPIChangeHandler}
-                value={selectedRunrateNPI}
-              >
-                <option value="">Selecione</option>
-                {runrateNPIOptions.map((item, index) => (
-                  <option key={index} value={item.Runrate_NPI}>
-                    {item.Runrate_NPI}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Filtro por Product_Group */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="product_group"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by Product_Group
-              </label>
-              <select
-                id="product_group"
-                name="product_group"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={productGroupChangeHandler}
-                value={selectedProductGroup}
-              >
-                <option value="">Selecione</option>
-                {productGroupOptions.map((item, index) => (
-                  <option key={index} value={item.Product_Group}>
-                    {item.Product_Group}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Filtro por CHAVE */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="chave"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Filter by CHAVE
-              </label>
-              <select
-                id="chave"
-                name="chave"
-                className="mt-1 block w-full pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                onChange={chaveChangeHandler}
-                value={selectedChave}
-              >
-                <option value="">Selecione</option>
-                {chaveOptions.map((item, index) => (
-                  <option key={index} value={item.CHAVE}>
-                    {item.CHAVE}
-                  </option>
-                ))}
-              </select>
+          <div className="w-4/12 flex flex-col justify-between">
+            <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
+              Save Forecast
+            </h1>
+            <h2 className="py-2 text-[10px] text-[#9ca3af]">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab,
+              molestias blanditiis quam voluptas odio repudiandae? Impedit quis,
+              hic quidem recusandae cupiditate autem nostrum quo incidunt
+              sapiente tempore pariatur, consequuntur quae?
+            </h2>
+            <div className="flex flex-row ml-auto ">
+              <button className="px-5 mr-5 py-2 my-2 rounded-md bg-red-600 text-white font-bold">
+                Descart
+              </button>
+              <button className="px-5 mr-5 py-2 my-2 rounded-md bg-green-600 text-white font-bold">
+                Save
+              </button>
             </div>
           </div>
         </div>
+        <div className="w-full h-10 flex flex-row justify-between mt-10 gap-4  ">
+          {/* Filtro por Cliente */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="client"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Client
+            </label>
+            <select
+              id="client"
+              name="client"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={clientChangeHandler}
+              value={selectedClient}
+            >
+              <option value="">Selecione</option>
+              {clients.map(
+                (item, index) =>
+                  item.Cliente && (
+                    <option key={index} value={item.Cliente}>
+                      {item.Cliente}
+                    </option>
+                  )
+              )}
+            </select>
+          </div>
 
-        <div className="w-1/2 flex flex-col justify-between">
-          <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
-            Save Forecast
-          </h1>
-          <h2 className="py-2 text-[10px] text-[#9ca3af]">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab,
-            molestias blanditiis quam voluptas odio repudiandae? Impedit quis,
-            hic quidem recusandae cupiditate autem nostrum quo incidunt sapiente
-            tempore pariatur, consequuntur quae?
-          </h2>
-          <div className="flex flex-row ">
-            <button className="px-5 mr-5 py-2 my-2 rounded-md bg-red-600 text-white font-bold">
-              Descart
-            </button>
-            <button className="px-5 mr-5 py-2 my-2 rounded-md bg-green-600 text-white font-bold">
-              Save
-            </button>
+          {/* Filtro por Part Number */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="partnumber"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Part number
+            </label>
+            <select
+              id="partnumber"
+              name="partnumber"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={partNumberChangeHandler}
+              value={selectedPartNumber}
+            >
+              <option value="">Selecione</option>
+              {partNumbers.map(
+                (item, index) =>
+                  item.Part_Number && (
+                    <option key={index} value={item.Part_Number}>
+                      {item.Part_Number}
+                    </option>
+                  )
+              )}
+            </select>
+          </div>
+
+          {/* Filtro por NAM */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="nam"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              NAM
+            </label>
+            <select
+              id="nam"
+              name="nam"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={namChangeHandler}
+              value={selectedNam}
+            >
+              <option value="">Selecione</option>
+              {namOptions.map((item, index) => (
+                <option key={index} value={item.NAM}>
+                  {item.NAM}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por MANAGER */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="manager"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              MANAGER
+            </label>
+            <select
+              id="manager"
+              name="manager"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={managerChangeHandler}
+              value={selectedManager}
+            >
+              <option value="">Selecione</option>
+              {managerOptions.map((item, index) => (
+                <option key={index} value={item.MANAGER}>
+                  {item.MANAGER}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por MKT_Name */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="mktName"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              MKT_Name
+            </label>
+            <select
+              id="mktName"
+              name="mktName"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={mktNameChangeHandler}
+              value={selectedMktName}
+            >
+              <option value="">Selecione</option>
+              {mktNameOptions.map((item, index) => (
+                <option key={index} value={item.MKT_Name}>
+                  {item.MKT_Name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por Runrate_NPI */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="runrate_npi"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Runrate_NPI
+            </label>
+            <select
+              id="runrate_npi"
+              name="runrate_npi"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={runrateNPIChangeHandler}
+              value={selectedRunrateNPI}
+            >
+              <option value="">Selecione</option>
+              {runrateNPIOptions.map((item, index) => (
+                <option key={index} value={item.Runrate_NPI}>
+                  {item.Runrate_NPI}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por Product_Group */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="product_group"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Product_Group
+            </label>
+            <select
+              id="product_group"
+              name="product_group"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={productGroupChangeHandler}
+              value={selectedProductGroup}
+            >
+              <option value="">Selecione</option>
+              {productGroupOptions.map((item, index) => (
+                <option key={index} value={item.Product_Group}>
+                  {item.Product_Group}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filtro por CHAVE */}
+          <div className="flex flex-col">
+            <label
+              htmlFor="chave"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              CHAVE
+            </label>
+            <select
+              id="chave"
+              name="chave"
+              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onChange={chaveChangeHandler}
+              value={selectedChave}
+            >
+              <option value="">Selecione</option>
+              {chaveOptions.map((item, index) => (
+                <option key={index} value={item.CHAVE}>
+                  {item.CHAVE}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
