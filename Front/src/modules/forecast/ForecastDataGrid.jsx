@@ -5,138 +5,130 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
   const [data, setData] = useState([...initialData]);
   const [search, setSearch] = useState("");
   const [activeCell, setActiveCell] = useState({ row: 0, col: 0 });
+  const [editingCell, setEditingCell] = useState(null);
 
   const containerRef = useRef(null);
 
   // Objeto de formatações personalizadas para os dados das células
   const customFormatters = {
-    id: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Cliente: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-start w-full">{String(value)}</div>;
-    },
-    NAM: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    MANAGER: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Part_Number: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    MKT_Name: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Runrate_NPI: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Product_Group: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    CHAVE: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-start w-full">{String(value)}</div>;
-    },
-    Q1_NAM_Total_estoque_cliente_PÇS_: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_NAM_Estoque_Projetado: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_NAM_Estoque_Ajustado: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_NAM_WOH: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Abril: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Maio: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Junho: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Forecast_Q1: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Total_Q1_ano_anterior: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Forecast_Q1_Evento_Q1: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    Q1_Variação_YoY: ({ row, column }) => {
-      const value = row.getValue(column.id);
-      return <div className="text-center w-full">{String(value)}</div>;
-    },
-    // Você pode adicionar formatações personalizadas para as demais colunas, se necessário.
+    id: ({ row, column }) => (
+      <div className="text-center w-full">{String(data[row.index]["id"])}</div>
+    ),
+    Cliente: ({ row, column }) => (
+      <div className="text-start w-full">
+        {String(data[row.index]["Cliente"])}
+      </div>
+    ),
+    NAM: ({ row, column }) => (
+      <div className="text-center w-full">{String(data[row.index]["NAM"])}</div>
+    ),
+    MANAGER: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["MANAGER"])}
+      </div>
+    ),
+    Part_Number: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Part_Number"])}
+      </div>
+    ),
+    MKT_Name: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["MKT_Name"])}
+      </div>
+    ),
+    Runrate_NPI: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Runrate_NPI"])}
+      </div>
+    ),
+    Product_Group: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Product_Group"])}
+      </div>
+    ),
+    CHAVE: ({ row, column }) => (
+      <div className="text-start w-full">
+        {String(data[row.index]["CHAVE"])}
+      </div>
+    ),
+    Q1_NAM_Total_estoque_cliente_PÇS_: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_NAM_Total_estoque_cliente_PÇS_"])}
+      </div>
+    ),
+    Q1_NAM_Estoque_Projetado: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_NAM_Estoque_Projetado"])}
+      </div>
+    ),
+    Q1_NAM_Estoque_Ajustado: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_NAM_Estoque_Ajustado"])}
+      </div>
+    ),
+    Q1_NAM_WOH: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_NAM_WOH"])}
+      </div>
+    ),
+    Q1_Abril: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Abril"])}
+      </div>
+    ),
+    Q1_Maio: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Maio"])}
+      </div>
+    ),
+    Q1_Junho: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Junho"])}
+      </div>
+    ),
+    Q1_Forecast_Q1: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Forecast_Q1"])}
+      </div>
+    ),
+    Q1_Total_Q1_ano_anterior: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Total_Q1_ano_anterior"])}
+      </div>
+    ),
+    Q1_Forecast_Q1_Evento_Q1: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Forecast_Q1_Evento_Q1"])}
+      </div>
+    ),
+    Q1_Variação_YoY: ({ row, column }) => (
+      <div className="text-center w-full">
+        {String(data[row.index]["Q1_Variação_YoY"])}
+      </div>
+    ),
   };
 
   // Objeto para definir classes de background dos cabeçalhos (headers) para cada coluna
   const customHeaderColors = {
-    // id: "bg-red-500",
-    // Cliente: "bg-green-500",
-    // NAM: "bg-blue-500",
-    // MANAGER: "bg-purple-500",
-    // Part_Number: "bg-yellow-500",
-    // MKT_Name: "bg-indigo-500",
-    // Runrate_NPI: "bg-pink-500",
-    // Product_Group: "bg-gray-500",
-    // CHAVE: "bg-orange-500",
     Q1_NAM_Total_estoque_cliente_PÇS_:
-      "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_NAM_Estoque_Projetado:
-      "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_NAM_Estoque_Ajustado: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_NAM_WOH: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Abril: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Maio: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Junho: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Forecast_Q1: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Total_Q1_ano_anterior:
-      "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Forecast_Q1_Evento_Q1:
-      "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    Q1_Variação_YoY: "bg-yellow-200  p-2 px-4 rounded-sm text-blue-900",
-    // Adicione cores para outras colunas se necessário.
+      "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_NAM_Estoque_Projetado: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_NAM_Estoque_Ajustado: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_NAM_WOH: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Abril: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Maio: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Junho: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Forecast_Q1: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Total_Q1_ano_anterior: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Forecast_Q1_Evento_Q1: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
+    Q1_Variação_YoY: "bg-yellow-200 p-2 px-4 rounded-sm text-blue-900",
   };
 
   // Atualiza os dados quando o initialData muda
   useEffect(() => {
     setData([...initialData]);
   }, [initialData]);
-
-  useEffect(() => {
-    // console.log("Célula ativa atualizada:", activeCell);
-  }, [activeCell]);
-
-  // Foca o container ao montar para capturar os eventos de teclado
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.focus();
-    }
-  }, []);
 
   // Efeito para scroll automático na célula ativa
   useEffect(() => {
@@ -152,20 +144,55 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
     }
   }, [activeCell]);
 
-  // Função para lidar com eventos de teclado no container
+  // Gerencia navegação e ativação do modo de edição via teclado
   const handleKeyDown = (event) => {
-    // Se o foco estiver em um input, não interfere para não atrapalhar a busca
-    if (event.target.tagName.toLowerCase() === "input") return;
+    // Se o foco estiver num input, verifica se é o ESC para sair da edição
+    if (event.target.tagName.toLowerCase() === "input") {
+      if (event.key === "Escape") {
+        setEditingCell(null);
+        containerRef.current?.focus();
+      }
+      return;
+    }
 
-    // console.log("Tecla pressionada:", event.key);
+    // Se não estiver em modo de edição e o usuário começar a digitar, ativa a edição
+    if (
+      !editingCell &&
+      event.key.length === 1 &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    ) {
+      event.preventDefault(); // Evita que a tecla seja registrada novamente
+      const colKey = columns[activeCell.col].accessorKey;
+      setEditingCell({
+        row: activeCell.row,
+        col: activeCell.col,
+        key: colKey,
+      });
+      // Inicia a célula com a tecla digitada
+      handleCellEdit(activeCell.row, colKey, event.key);
+      return;
+    }
+
+    // F2 também ativa o modo de edição
+    if (event.key === "F2") {
+      setEditingCell({
+        row: activeCell.row,
+        col: activeCell.col,
+        key: columns[activeCell.col].accessorKey,
+      });
+      return;
+    }
+
     event.preventDefault();
 
+    // Navegação com setas e Tab
     setActiveCell((prev) => {
       let { row, col } = prev;
       const totalRows = data.length;
       const totalCols = columns.length;
 
-      // console.log("Antes:", { row, col });
       switch (event.key) {
         case "ArrowRight":
           col = col < totalCols - 1 ? col + 1 : col;
@@ -186,22 +213,51 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
         default:
           return prev;
       }
-      // console.log("Depois:", { row, col });
       return { row, col };
     });
   };
 
-  // Função para atualizar a célula clicada
+  // Atualiza a célula clicada
   const handleCellClick = (rowIndex, colIndex) => {
-    console.log("Célula clicada:", { rowIndex, colIndex });
     setActiveCell({ row: rowIndex, col: colIndex });
   };
 
-  // Atualiza as colunas para incluir header customizado e o cell com formatação
+  // Ativa o modo de edição ao dar duplo clique na célula
+  const handleCellDoubleClick = (rowIndex, colIndex, colKey) => {
+    setEditingCell({ row: rowIndex, col: colIndex, key: colKey });
+  };
+
+  // Atualiza o valor da célula editada no buffer de dados
+  const handleCellEdit = (rowIndex, colKey, newValue) => {
+    setData((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[rowIndex] = { ...updatedData[rowIndex], [colKey]: newValue };
+      return updatedData;
+    });
+  };
+
+  // Envia os dados atualizados para o endpoint da API
+  const handleSave = async () => {
+    try {
+      const response = await fetch("https://sua-api.com/endpoint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error("Erro ao salvar os dados");
+      }
+      const result = await response.json();
+      console.log("Dados salvos com sucesso:", result);
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  };
+
+  // Atualiza as colunas para incluir header customizado e a célula com funcionalidade de edição
   const updatedColumns = columns.map((col, colIndex) => {
     let headerText = col.header || col.accessorKey;
 
-    // Atualiza os headers conforme o padrão desejado
     if (col.accessorKey === "id") headerText = "id";
     if (col.accessorKey === "Cliente") headerText = "Cliente";
     if (col.accessorKey === "NAM") headerText = "NAM";
@@ -230,11 +286,10 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
 
     return {
       ...col,
-      // Header customizado com background individual usando as classes definidas em customHeaderColors
       header: () => (
         <div
-          className={` text-center  text-white ${
-            customHeaderColors[col.accessorKey] || "bg-transparent rounded-md "
+          className={`text-center text-white ${
+            customHeaderColors[col.accessorKey] || "bg-transparent rounded-md"
           }`}
         >
           {headerText}
@@ -243,7 +298,14 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
       cell: ({ row, column }) => {
         const isActive =
           row.index === activeCell.row && colIndex === activeCell.col;
-        const formatter = customFormatters[col.accessorKey];
+        const isEditing =
+          editingCell &&
+          editingCell.row === row.index &&
+          editingCell.col === colIndex &&
+          editingCell.key === col.accessorKey;
+
+        const cellValue = data[row.index][col.accessorKey];
+
         return (
           <div
             data-row-index={row.index}
@@ -254,22 +316,61 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
                 : "border-transparent"
             }`}
             onClick={() => handleCellClick(row.index, colIndex)}
+            onDoubleClick={() =>
+              handleCellDoubleClick(row.index, colIndex, col.accessorKey)
+            }
             style={{ boxSizing: "border-box" }}
           >
-            {formatter ? formatter({ row, column }) : row.getValue(column.id)}
+            {isEditing ? (
+              <input
+                type="text"
+                value={cellValue}
+                onChange={(e) =>
+                  handleCellEdit(row.index, col.accessorKey, e.target.value)
+                }
+                onBlur={() => {
+                  setEditingCell(null);
+                  containerRef.current?.focus();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    setEditingCell(null);
+                    setActiveCell((prev) => {
+                      const totalRows = data.length;
+                      const newRow =
+                        prev.row < totalRows - 1 ? prev.row + 1 : prev.row;
+                      return { ...prev, row: newRow };
+                    });
+                    containerRef.current?.focus();
+                  } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    setEditingCell(null);
+                    containerRef.current?.focus();
+                  }
+                }}
+                className="w-full h-full p-0 m-0 bg-gray-600 text-white border-gray-800  border-0 focus:outline-none appearance-none text-sm"
+                autoFocus
+              />
+            ) : customFormatters[col.accessorKey] ? (
+              customFormatters[col.accessorKey]({ row, column })
+            ) : (
+              cellValue
+            )}
           </div>
         );
       },
     };
   });
 
-  const normalize = (str) => {
-    return str
+  // Função para normalizar strings na busca
+  const normalize = (str) =>
+    str
       .toLowerCase()
-      .normalize("NFD") // separa caracteres base e acentos
-      .replace(/[\u0300-\u036f]/g, ""); // remove acentos
-  };
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
+  // Filtra os dados conforme o valor da busca
   const filteredData = data.filter((row) => {
     if (!search.trim()) return true;
     const tokens = normalize(search).split(/\s+/);
@@ -282,9 +383,9 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
     <div
       className="p-4 space-y-4 cursor-pointer"
       ref={containerRef}
-      tabIndex={0} // Torna o container focável
-      onKeyDown={handleKeyDown} // Captura os eventos de teclado
-      style={{ outline: "none" }} // Remove o outline padrão
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      style={{ outline: "none" }}
     >
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
@@ -292,13 +393,21 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
             {cardTitle}
           </h1>
         </div>
-        <input
-          type="text"
-          placeholder="Buscar na tabela..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="max-w-sm border p-2 rounded-md"
-        />
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            placeholder="Buscar na tabela..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="max-w-sm border p-2 rounded-md"
+          />
+          <button
+            onClick={handleSave}
+            className="bg-blue-500 text-white p-2 rounded-md"
+          >
+            Save
+          </button>
+        </div>
       </div>
       <DataTable
         columns={updatedColumns}
