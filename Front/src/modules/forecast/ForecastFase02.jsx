@@ -55,6 +55,38 @@ export default function ForecastFase02() {
       );
   }, []);
 
+  // Dentro de ForecastFase02.jsx:
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(
+        "https://api.logihub.space/api/forecast-data",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
+      const resp = await response.json();
+      // Processar os dados conforme necessário:
+      const mergedCols = mergeServerColsWithEditStructure(resp.columns);
+      const transformedData = transformDataToExpectedFormat(
+        resp.rows,
+        mergedCols
+      );
+      setColumnsState(mergedCols);
+      setDataState(transformedData);
+    } catch (error) {
+      console.error("Erro ao carregar dados do servidor:", error);
+      setColumnsState([]);
+      setDataState([]);
+    }
+  };
+
+  // Use fetchData dentro do useEffect para o carregamento inicial:
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   // Buscar colunas e linhas do servidor
   const getData = async () => {
     const token = localStorage.getItem("token");
@@ -166,27 +198,13 @@ export default function ForecastFase02() {
       </div>
 
       <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-        <div className="flex flex-row">
-          <button
-            onClick={handleScrollLeft}
-            className="text-white py-2 px-5 border border-white rounded-md mr-5 my-5"
-          >
-            {"<<< "}
-          </button>
-          <button
-            onClick={handleScrollRight}
-            className="text-white py-2 px-5 border border-white rounded-md mr-5 my-5"
-          >
-            {">>> "}
-          </button>
-        </div>
-
         {/* DataGrid com os dados transformados */}
         <ForecastDataGrid
           ref={firstCardRef}
-          cardTitle={"Snapshot do trimestre atual"}
+          cardTitle={"Snapshot "}
           initialData={dataState}
           columns={columnsState}
+          refetchData={fetchData}
         />
       </div>
     </>

@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DataTable } from "@/components/ui/data-table";
 
-export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
+export default function ForecastDataGrid({
+  cardTitle,
+  initialData,
+  columns,
+  refetchData,
+}) {
   const [data, setData] = useState([...initialData]);
   const [search, setSearch] = useState("");
   const [activeCell, setActiveCell] = useState({ row: 0, col: 0 });
@@ -231,24 +236,58 @@ export default function ForecastDataGrid({ cardTitle, initialData, columns }) {
   const handleCellEdit = (rowIndex, colKey, newValue) => {
     setData((prevData) => {
       const updatedData = [...prevData];
-      updatedData[rowIndex] = { ...updatedData[rowIndex], [colKey]: newValue };
+      // Mark the record as dirty and update the field
+      updatedData[rowIndex] = {
+        ...updatedData[rowIndex],
+        [colKey]: newValue,
+        isDirty: true,
+      };
       return updatedData;
     });
   };
 
   // Envia os dados atualizados para o endpoint da API
   const handleSave = async () => {
+    // Filtra os registros que foram modificados (marcados com isDirty)
+    const modifiedRecords = data.filter((record) => record.isDirty);
+
+    if (modifiedRecords.length === 0) {
+      console.log("Nenhum registro modificado para salvar.");
+      return;
+    }
+
+    // Recupera o token do localStorage
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token não encontrado. Faça login novamente.");
+      return;
+    }
+
     try {
-      const response = await fetch("https://sua-api.com/endpoint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://api.logihub.space/api/update-forecast",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ records: modifiedRecords }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Erro ao salvar os dados");
       }
       const result = await response.json();
       console.log("Dados salvos com sucesso:", result);
+      // Limpa a flag isDirty
+      setData((prevData) =>
+        prevData.map((record) => ({ ...record, isDirty: false }))
+      );
+      // Chama o refetch passado via props para atualizar os dados
+      if (refetchData) {
+        refetchData();
+      }
     } catch (error) {
       console.error("Erro:", error);
     }
