@@ -11,6 +11,8 @@ import {
 } from "../../components/sooner/SonnerToastProvider";
 import { SkeletonDataGrid } from "@/components/skeleton/SkeletonDataGrid";
 
+import { MyDataTable } from "./MyDataTable.jsx";
+
 export default function ForecastFase02() {
   const horizontalScrollRef = useRef(null);
   const firstCardRef = useRef(null);
@@ -212,7 +214,7 @@ export default function ForecastFase02() {
         >
           teste
         </button>
-        {loading ? (
+        {/* {loading ? (
           <SkeletonDataGrid
             rows={5}
             columns={dataState[0] ? Object.keys(dataState[0]).length : 5}
@@ -225,6 +227,14 @@ export default function ForecastFase02() {
             columns={columnsState}
             refetchData={fetchData}
           />
+        )} */}
+        {loading ? (
+          <SkeletonDataGrid
+            rows={5}
+            columns={dataState[0] ? Object.keys(dataState[0]).length : 5}
+          />
+        ) : (
+          <MyDataTable columns={columnsState} data={dataState} />
         )}
       </div>
     </>
