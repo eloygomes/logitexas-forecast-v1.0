@@ -1,4 +1,5 @@
 ---
+import { SonnerToastProvider } from "@/components/sooner/SonnerToastProvider";
 import LayoutStacked from "../../app/LayoutStacked.astro";
 import ForecastFase02 from "../../modules/forecast/ForecastFase02.jsx";
 ---
@@ -13,5 +14,7 @@ import ForecastFase02 from "../../modules/forecast/ForecastFase02.jsx";
 </script>
 
 <LayoutStacked>
-  <ForecastFase02 client:load />
+  <SonnerToastProvider client:load>
+    <ForecastFase02 client:load />
+  </SonnerToastProvider>
 </LayoutStacked>

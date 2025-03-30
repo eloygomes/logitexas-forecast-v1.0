@@ -5,10 +5,17 @@ import ForecastHeader from "./ForecastHeader";
 // Imports de dados e colunas
 import { columns_tab4_faseB } from "./columns_tab4_faseB";
 
+import {
+  showSuccess,
+  showError,
+} from "../../components/sooner/SonnerToastProvider";
+import { SkeletonDataGrid } from "@/components/skeleton/SkeletonDataGrid";
+
 export default function ForecastFase02() {
   const horizontalScrollRef = useRef(null);
   const firstCardRef = useRef(null);
   const [cardWidth, setCardWidth] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   // Estado para colunas e dados
   const [columnsState, setColumnsState] = useState([]);
@@ -49,6 +56,7 @@ export default function ForecastFase02() {
 
         setColumnsState(mergedCols);
         setDataState(transformedData);
+        setLoading(false);
       })
       .catch((error) =>
         console.error("Erro ao carregar dados do servidor:", error)
@@ -198,14 +206,26 @@ export default function ForecastFase02() {
       </div>
 
       <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-        {/* DataGrid com os dados transformados */}
-        <ForecastDataGrid
-          ref={firstCardRef}
-          cardTitle={"Snapshot "}
-          initialData={dataState}
-          columns={columnsState}
-          refetchData={fetchData}
-        />
+        <button
+          type="button"
+          onClick={() => showSuccess("Operação realizada com sucesso!")}
+        >
+          teste
+        </button>
+        {loading ? (
+          <SkeletonDataGrid
+            rows={5}
+            columns={dataState[0] ? Object.keys(dataState[0]).length : 5}
+          />
+        ) : (
+          <ForecastDataGrid
+            ref={firstCardRef}
+            cardTitle={"Snapshot "}
+            initialData={dataState}
+            columns={columnsState}
+            refetchData={fetchData}
+          />
+        )}
       </div>
     </>
   );
