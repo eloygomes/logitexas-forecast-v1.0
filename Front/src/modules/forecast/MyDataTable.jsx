@@ -1,6 +1,10 @@
 // src/modules/forecast/MyDataTable.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { VirtualizedDataTable } from "./VirtualizedDataTable.jsx";
+import {
+  showSuccess,
+  showError,
+} from "../../components/sooner/SonnerToastProvider.jsx";
 
 // Configurações padrão para as colunas (por índice) - 47 itens já definidos
 const defaultColumnStyles = [
@@ -9,7 +13,7 @@ const defaultColumnStyles = [
   { width: "120px", headerBg: "#d1d1d1" }, // Coluna 3 (ex: NAM)
   { width: "120px", headerBg: "#d2d2d2" }, // Coluna 4 (ex: MANAGER)
   { width: "120px", headerBg: "#d3d3d3" }, // Coluna 5 (ex: Part Number)
-  { width: "300px", headerBg: "#d4d4d4" }, // Coluna 6 (ex: MKT_Name)
+  { width: "500px", headerBg: "#d4d4d4" }, // Coluna 6 (ex: MKT_Name)
   { width: "300px", headerBg: "#d5d5d5" }, // Coluna 7 (ex: Runrate_NPI)
   { width: "300px", headerBg: "#d6d6d6" }, // Coluna 8 (ex: Product_Group)
   { width: "300px", headerBg: "#d7d7d7" }, // Coluna 9 (ex: CHAVE)
@@ -208,6 +212,7 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
       if (!response.ok) throw new Error("Erro ao salvar os dados");
       const result = await response.json();
       console.log("Dados salvos com sucesso:", result);
+      showSuccess("Dados salvos com sucesso!");
       // limpa a flag isDirty
       setTableData((prev) =>
         prev.map((record) => ({ ...record, isDirty: false }))
