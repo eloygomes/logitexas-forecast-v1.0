@@ -1,7 +1,9 @@
+import { showInfo } from "@/components/sooner/SonnerToastProvider";
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
 export default function ForecastHeader({ dataState, setDataState }) {
-  // Options para os selects individuais
+  // Options for each filter
   const [clients, setClients] = useState([]);
   const [partNumbers, setPartNumbers] = useState([]);
   const [namOptions, setNamOptions] = useState([]);
@@ -11,7 +13,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
   const [productGroupOptions, setProductGroupOptions] = useState([]);
   const [chaveOptions, setChaveOptions] = useState([]);
 
-  // Estados para os filtros selecionados
+  // Selected filters
   const [selectedClient, setSelectedClient] = useState("");
   const [selectedPartNumber, setSelectedPartNumber] = useState("");
   const [selectedNam, setSelectedNam] = useState("");
@@ -21,7 +23,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
   const [selectedProductGroup, setSelectedProductGroup] = useState("");
   const [selectedChave, setSelectedChave] = useState("");
 
-  // Carregar as opções de cada filtro individualmente
+  // Load options for each filter
   useEffect(() => {
     getClients().then((resp) => setClients(resp.rows));
     getPartNumbers().then((resp) => setPartNumbers(resp.part_numbers_list));
@@ -33,8 +35,23 @@ export default function ForecastHeader({ dataState, setDataState }) {
     getChave().then((resp) => setChaveOptions(resp.rows));
   }, []);
 
-  // Função que decide qual endpoint chamar baseado nos filtros selecionados
+  const customSelectStyles = {
+    container: (provided) => ({
+      ...provided,
+      width: "250px",
+      height: "40px", // fixed width for the container
+    }),
+    control: (provided) => ({
+      ...provided,
+      width: "250px",
+      height: "40px", // fixed width for the control
+    }),
+  };
+
+  // Decide which endpoint to call based on selected filters
   const updateData = async () => {
+    showInfo("Carregando dados...");
+
     const filters = {
       client: selectedClient,
       partNumber: selectedPartNumber,
@@ -53,7 +70,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
     let resp;
     try {
       if (nonEmptyFilters.length === 0) {
-        // Se nenhum filtro foi selecionado, pode-se optar por não atualizar ou chamar um endpoint default.
+        // No filters => skip or call default endpoint
         return;
       } else if (nonEmptyFilters.length === 1) {
         const [key, value] = nonEmptyFilters[0];
@@ -86,8 +103,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
             break;
         }
       } else {
-        // Se mais de um filtro for selecionado, use o endpoint combinado
-
+        // More than one filter => call combined endpoint
         resp = await getFilteredData(
           selectedClient,
           selectedPartNumber,
@@ -108,9 +124,10 @@ export default function ForecastHeader({ dataState, setDataState }) {
     }
   };
 
-  // useEffect para atualizar dados sempre que algum filtro mudar
+  // Re-fetch data whenever a filter changes
   useEffect(() => {
     updateData();
+    // eslint-disable-next-line
   }, [
     selectedClient,
     selectedPartNumber,
@@ -122,50 +139,84 @@ export default function ForecastHeader({ dataState, setDataState }) {
     selectedChave,
   ]);
 
-  // Handlers para cada select:
-  const clientChangeHandler = (e) => {
-    setSelectedClient(e.target.value);
-    console.log("Cliente selecionado:", e.target.value);
+  // Build {value, label} for React-Select
+  const clientOptions = (clients || []).map((item) => ({
+    value: item.Cliente,
+    label: item.Cliente,
+  }));
+  const partNumberOptions = (partNumbers || []).map((item) => ({
+    value: item.Part_Number,
+    label: item.Part_Number,
+  }));
+  const namSelectOptions = (namOptions || []).map((item) => ({
+    value: item.NAM,
+    label: item.NAM,
+  }));
+  const managerSelectOptions = (managerOptions || []).map((item) => ({
+    value: item.MANAGER,
+    label: item.MANAGER,
+  }));
+  const mktNameSelectOptions = (mktNameOptions || []).map((item) => ({
+    value: item.MKT_Name,
+    label: item.MKT_Name,
+  }));
+  const runrateNPISelectOptions = (runrateNPIOptions || []).map((item) => ({
+    value: item.Runrate_NPI,
+    label: item.Runrate_NPI,
+  }));
+  const productGroupSelectOptions = (productGroupOptions || []).map((item) => ({
+    value: item.Product_Group,
+    label: item.Product_Group,
+  }));
+  const chaveSelectOptions = (chaveOptions || []).map((item) => ({
+    value: item.CHAVE,
+    label: item.CHAVE,
+  }));
+
+  // React-Select fetch calls
+  const handleClientChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedClient(val);
+    console.log("Cliente selecionado:", val);
+  };
+  const handlePartNumberChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedPartNumber(val);
+    console.log("Part Number selecionado:", val);
+  };
+  const handleNamChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedNam(val);
+    console.log("NAM selecionado:", val);
+  };
+  const handleManagerChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedManager(val);
+    console.log("MANAGER selecionado:", val);
+  };
+  const handleMktNameChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedMktName(val);
+    console.log("MKT_Name selecionado:", val);
+  };
+  const handleRunrateNPIChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedRunrateNPI(val);
+    console.log("Runrate_NPI selecionado:", val);
+  };
+  const handleProductGroupChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedProductGroup(val);
+    console.log("Product_Group selecionado:", val);
+  };
+  const handleChaveChange = (option) => {
+    const val = option ? option.value : "";
+    setSelectedChave(val);
+    console.log("CHAVE selecionado:", val);
   };
 
-  const partNumberChangeHandler = (e) => {
-    setSelectedPartNumber(e.target.value);
-    console.log("Part Number selecionado:", e.target.value);
-  };
-
-  const namChangeHandler = (e) => {
-    setSelectedNam(e.target.value);
-    console.log("NAM selecionado:", e.target.value);
-  };
-
-  const managerChangeHandler = (e) => {
-    setSelectedManager(e.target.value);
-    console.log("MANAGER selecionado:", e.target.value);
-  };
-
-  const mktNameChangeHandler = (e) => {
-    setSelectedMktName(e.target.value);
-    console.log("MKT_Name selecionado:", e.target.value);
-  };
-
-  const runrateNPIChangeHandler = (e) => {
-    setSelectedRunrateNPI(e.target.value);
-    console.log("Runrate_NPI selecionado:", e.target.value);
-  };
-
-  const productGroupChangeHandler = (e) => {
-    setSelectedProductGroup(e.target.value);
-    console.log("Product_Group selecionado:", e.target.value);
-  };
-
-  const chaveChangeHandler = (e) => {
-    setSelectedChave(e.target.value);
-    console.log("CHAVE selecionado:", e.target.value);
-  };
-
-  // Funções de fetch para chamadas individuais
-
-  const getDataFromaClient = async (client) => {
+  // The same fetch logic
+  async function getDataFromaClient(client) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/clients/${client}`,
@@ -173,9 +224,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromPartNumber = async (partNumber) => {
+  }
+  async function getDataFromPartNumber(partNumber) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/partnumbers/${partNumber}`,
@@ -183,9 +233,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromNAM = async (nam) => {
+  }
+  async function getDataFromNAM(nam) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/nam/${nam}`,
@@ -193,9 +242,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromManager = async (manager) => {
+  }
+  async function getDataFromManager(manager) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/manager/${manager}`,
@@ -203,9 +251,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromMktName = async (mktName) => {
+  }
+  async function getDataFromMktName(mktName) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/mktname/${mktName}`,
@@ -213,9 +260,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromRunrateNPI = async (runrate_npi) => {
+  }
+  async function getDataFromRunrateNPI(runrate_npi) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/runrate_npi/${runrate_npi}`,
@@ -223,9 +269,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromProductGroup = async (product_group) => {
+  }
+  async function getDataFromProductGroup(product_group) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/product_group/${product_group}`,
@@ -233,9 +278,8 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getDataFromChave = async (chave) => {
+  }
+  async function getDataFromChave(chave) {
     const token = localStorage.getItem("token");
     const response = await fetch(
       `https://api.logihub.space/api/forecast-data/chave/${chave}`,
@@ -243,91 +287,100 @@ export default function ForecastHeader({ dataState, setDataState }) {
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
+  }
 
-  // Funções para buscar as opções de cada filtro
-  const getClients = async () => {
+  // fetch to populate filter options
+  async function getClients() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/clients",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getPartNumbers = async () => {
+  }
+  async function getPartNumbers() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/partnumbers",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getNAM = async () => {
+  }
+  async function getNAM() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/nam",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getManager = async () => {
+  }
+  async function getManager() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/manager",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getMktName = async () => {
+  }
+  async function getMktName() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/mktname",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getRunrateNPI = async () => {
+  }
+  async function getRunrateNPI() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/runrate_npi",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getProductGroup = async () => {
+  }
+  async function getProductGroup() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/product_group",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
-
-  const getChave = async () => {
+  }
+  async function getChave() {
     const token = localStorage.getItem("token");
     const response = await fetch(
       "https://api.logihub.space/api/forecast-data/chave",
-      { headers: { Authorization: `Bearer ${token}` } }
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
+  }
 
-  // Endpoint combinado para múltiplos filtros
-  const getFilteredData = async (
+  // Combined filter
+  async function getFilteredData(
     client,
     partNumber,
     nam,
@@ -336,7 +389,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
     runrate_npi,
     product_group,
     chave
-  ) => {
+  ) {
     const token = localStorage.getItem("token");
     let url = "https://api.logihub.space/api/forecast-data/filter?";
     const params = [];
@@ -357,7 +410,7 @@ export default function ForecastHeader({ dataState, setDataState }) {
     });
     if (!response.ok) throw new Error(`Erro na API: ${response.statusText}`);
     return await response.json();
-  };
+  }
 
   return (
     <div className="p-4 ">
@@ -370,225 +423,228 @@ export default function ForecastHeader({ dataState, setDataState }) {
             <h2 className="w-1/2 py-2 text-sm text-[#9ca3af]">
               Use a filter to start
             </h2>
+            <div className="w-full h-32 flex flex-row justify-between mt-10 gap-4  pr-5">
+              <div className="flex flex-col">
+                {/* Filtro por Cliente */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Client
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={clientOptions}
+                    value={
+                      selectedClient
+                        ? { value: selectedClient, label: selectedClient }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedClient(val);
+                      console.log("Cliente selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+
+                {/* Filtro por Part Number */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    PN
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={partNumberOptions}
+                    value={
+                      selectedPartNumber
+                        ? {
+                            value: selectedPartNumber,
+                            label: selectedPartNumber,
+                          }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedPartNumber(val);
+                      console.log("Part Number selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                {/* Filtro por NAM */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    NAM
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={namSelectOptions}
+                    value={
+                      selectedNam
+                        ? { value: selectedNam, label: selectedNam }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedNam(val);
+                      console.log("NAM selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+
+                {/* Filtro por MANAGER */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    MANAGER
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={managerSelectOptions}
+                    value={
+                      selectedManager
+                        ? { value: selectedManager, label: selectedManager }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedManager(val);
+                      console.log("MANAGER selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                {/* Filtro por MKT_Name */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    MKT_Name
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={mktNameSelectOptions}
+                    value={
+                      selectedMktName
+                        ? { value: selectedMktName, label: selectedMktName }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedMktName(val);
+                      console.log("MKT_Name selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+
+                {/* Filtro por Runrate_NPI */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Runrate_NPI
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={runrateNPISelectOptions}
+                    value={
+                      selectedRunrateNPI
+                        ? {
+                            value: selectedRunrateNPI,
+                            label: selectedRunrateNPI,
+                          }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedRunrateNPI(val);
+                      console.log("Runrate_NPI selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                {/* Filtro por Product_Group */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Product_Group
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={productGroupSelectOptions}
+                    value={
+                      selectedProductGroup
+                        ? {
+                            value: selectedProductGroup,
+                            label: selectedProductGroup,
+                          }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedProductGroup(val);
+                      console.log("Product_Group selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+
+                {/* Filtro por CHAVE */}
+                <div className="flex flex-col mb-5">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    CHAVE
+                  </label>
+                  <Select
+                    styles={customSelectStyles}
+                    options={chaveSelectOptions}
+                    value={
+                      selectedChave
+                        ? { value: selectedChave, label: selectedChave }
+                        : null
+                    }
+                    onChange={(option) => {
+                      const val = option ? option.value : "";
+                      setSelectedChave(val);
+                      console.log("CHAVE selecionado:", val);
+                    }}
+                    isSearchable
+                    placeholder="Selecione ou digite..."
+                  />
+                </div>
+              </div>
+              {/* Extra space or additional buttons */}
+            </div>
           </div>
 
-          <div className="w-4/12 flex flex-col justify-between">
-            <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">
-              Save Forecast
-            </h1>
-            <h2 className="py-2 text-[10px] text-[#9ca3af]">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab,
-              molestias blanditiis quam voluptas odio repudiandae? Impedit quis,
-              hic quidem recusandae cupiditate autem nostrum quo incidunt
-              sapiente tempore pariatur, consequuntur quae?
-            </h2>
+          <div className="w-4/12  flex flex-col justify-between">
+            <div className="flex flex-col ">
+              <h1 className="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white text-right">
+                Save changes
+              </h1>
+              <h2 className="w-1/2 py-2 text-[10px] text-[#9ca3af] text-right ml-auto">
+                Faça as alterações e os filtros na tabela, e somente após fazer
+                todas as altera es necessárias, clique em salvar para salvar
+                todas as alterações realizadas. Se você fizer alterações e mudar
+                os filtros sem salvar, as alterações serão perdidas.
+              </h2>
+            </div>
             <div className="flex flex-row ml-auto ">
               <button className="px-5 mr-5 py-2 my-2 rounded-md bg-red-600 text-white font-bold">
                 Descart
               </button>
-              <button className="px-5 mr-5 py-2 my-2 rounded-md bg-green-600 text-white font-bold">
+              <button className="px-5  py-2 my-2 rounded-md bg-green-600 text-white font-bold">
                 Save
               </button>
             </div>
-          </div>
-        </div>
-        <div className="w-full h-10 flex flex-row justify-between mt-10 gap-4  ">
-          {/* Filtro por Cliente */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="client"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Client
-            </label>
-            <select
-              id="client"
-              name="client"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={clientChangeHandler}
-              value={selectedClient}
-            >
-              <option value="">Selecione</option>
-              {clients.map(
-                (item, index) =>
-                  item.Cliente && (
-                    <option key={index} value={item.Cliente}>
-                      {item.Cliente}
-                    </option>
-                  )
-              )}
-            </select>
-          </div>
-
-          {/* Filtro por Part Number */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="partnumber"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 flex-1"
-            >
-              PN
-            </label>
-            <select
-              id="partnumber"
-              name="partnumber"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={partNumberChangeHandler}
-              value={selectedPartNumber}
-            >
-              <option value="">Selecione</option>
-              {partNumbers.map(
-                (item, index) =>
-                  item.Part_Number && (
-                    <option key={index} value={item.Part_Number}>
-                      {item.Part_Number}
-                    </option>
-                  )
-              )}
-            </select>
-          </div>
-
-          {/* Filtro por NAM */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="nam"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              NAM
-            </label>
-            <select
-              id="nam"
-              name="nam"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={namChangeHandler}
-              value={selectedNam}
-            >
-              <option value="">Selecione</option>
-              {namOptions.map((item, index) => (
-                <option key={index} value={item.NAM}>
-                  {item.NAM}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filtro por MANAGER */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="manager"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              MANAGER
-            </label>
-            <select
-              id="manager"
-              name="manager"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={managerChangeHandler}
-              value={selectedManager}
-            >
-              <option value="">Selecione</option>
-              {managerOptions.map((item, index) => (
-                <option key={index} value={item.MANAGER}>
-                  {item.MANAGER}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filtro por MKT_Name */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="mktName"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              MKT_Name
-            </label>
-            <select
-              id="mktName"
-              name="mktName"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={mktNameChangeHandler}
-              value={selectedMktName}
-            >
-              <option value="">Selecione</option>
-              {mktNameOptions.map((item, index) => (
-                <option key={index} value={item.MKT_Name}>
-                  {item.MKT_Name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filtro por Runrate_NPI */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="runrate_npi"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Runrate_NPI
-            </label>
-            <select
-              id="runrate_npi"
-              name="runrate_npi"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={runrateNPIChangeHandler}
-              value={selectedRunrateNPI}
-            >
-              <option value="">Selecione</option>
-              {runrateNPIOptions.map((item, index) => (
-                <option key={index} value={item.Runrate_NPI}>
-                  {item.Runrate_NPI}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filtro por Product_Group */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="product_group"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Product_Group
-            </label>
-            <select
-              id="product_group"
-              name="product_group"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={productGroupChangeHandler}
-              value={selectedProductGroup}
-            >
-              <option value="">Selecione</option>
-              {productGroupOptions.map((item, index) => (
-                <option key={index} value={item.Product_Group}>
-                  {item.Product_Group}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Filtro por CHAVE */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="chave"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              CHAVE
-            </label>
-            <select
-              id="chave"
-              name="chave"
-              className="mt-1 block w-full flex-1 pl-2 text-base text-gray-900 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              onChange={chaveChangeHandler}
-              value={selectedChave}
-            >
-              <option value="">Selecione</option>
-              {chaveOptions.map((item, index) => (
-                <option key={index} value={item.CHAVE}>
-                  {item.CHAVE}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
       </div>

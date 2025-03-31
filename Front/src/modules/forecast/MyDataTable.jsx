@@ -8,7 +8,7 @@ import {
 
 // Configurações padrão para as colunas (por índice) - 47 itens já definidos
 const defaultColumnStyles = [
-  { width: "50px", headerBg: "#f0f0f0" }, // Coluna 1 (ex: id)
+  { width: "80px", headerBg: "#f0f0f0" }, // Coluna 1 (ex: id)
   { width: "200px", headerBg: "#e0e0e0" }, // Coluna 2 (ex: Cliente)
   { width: "120px", headerBg: "#d1d1d1" }, // Coluna 3 (ex: NAM)
   { width: "120px", headerBg: "#d2d2d2" }, // Coluna 4 (ex: MANAGER)

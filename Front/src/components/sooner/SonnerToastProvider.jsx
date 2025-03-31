@@ -24,5 +24,9 @@ export function showError(message) {
   toast.error(message);
 }
 
+export function showInfo(message) {
+  toast.info(message);
+}
+
 // Exporta também a função toast para uso customizado, se necessário
 export { toast };
