@@ -13,6 +13,7 @@ import {
 import { SkeletonDataGrid } from "@/components/skeleton/SkeletonDataGrid";
 
 import { MyDataTable } from "./MyDataTable.jsx";
+import NewForecastHeader from "./header/NewForecastHeader.jsx";
 
 export default function ForecastFase02() {
   const horizontalScrollRef = useRef(null);
@@ -179,13 +180,59 @@ export default function ForecastFase02() {
     });
   };
 
+  const fetchInitialData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "https://api.logihub.space/api/forecast-data",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const result = await response.json();
+      if (result && result.rows) {
+        setDataState(result.rows);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados iniciais:", error);
+    }
+  };
+
   // console.log("dataState", dataState);
   // console.log("Colunas geradas para a tabela:", columnsState);
 
   return (
     <>
-      <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-        <ForecastHeader dataState={dataState} setDataState={setDataState} />
+      <div className=" mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700  dark:bg-gray-800">
+        {/* <ForecastHeader dataState={dataState} setDataState={setDataState} /> */}
+        <div className="p-5 sm:p-6">
+          <NewForecastHeader
+            dataState={dataState}
+            setDataState={setDataState}
+            fetchInitialData={fetchInitialData}
+          />
+        </div>
+        <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-2 ">
+          <div className="w-1/2 flex flex-col">
+            <h1>Save</h1>
+            <h5 className="text-xs">
+              Make changes and apply filters to the table, and only after making
+              all the necessary changes, click “Save” to save all modifications.
+              If you make changes and apply filters without saving, the changes
+              will be lost.
+            </h5>
+          </div>
+          <div className="w-1/2 flex flex-row">
+            <div className="ml-auto ">
+              <button className="rounded border-2 border-red-600 px-3 py-2 bg-red-600 mr-5 my-2">
+                Descart
+              </button>
+              <button className="rounded border-2 border-green-600 px-3 py-2 bg-green-600 mr-5">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">

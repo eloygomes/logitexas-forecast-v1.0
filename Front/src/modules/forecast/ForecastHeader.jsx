@@ -1,3 +1,4 @@
+import Drawer from "@/components/drawer/Drawer";
 import { showInfo } from "@/components/sooner/SonnerToastProvider";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
@@ -22,6 +23,9 @@ export default function ForecastHeader({ dataState, setDataState }) {
   const [selectedRunrateNPI, setSelectedRunrateNPI] = useState("");
   const [selectedProductGroup, setSelectedProductGroup] = useState("");
   const [selectedChave, setSelectedChave] = useState("");
+
+  // Drawer
+  const [isOpen, setIsOpen] = useState(false);
 
   // Load options for each filter
   useEffect(() => {
@@ -623,6 +627,18 @@ export default function ForecastHeader({ dataState, setDataState }) {
               </div>
               {/* Extra space or additional buttons */}
             </div>
+            <div>
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                >
+                  HAAAA
+                </button>
+              </div>
+            </div>
+            <Drawer isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
 
           <div className="w-4/12  flex flex-col justify-between">
