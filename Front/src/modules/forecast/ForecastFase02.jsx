@@ -14,12 +14,14 @@ import { SkeletonDataGrid } from "@/components/skeleton/SkeletonDataGrid";
 
 import { MyDataTable } from "./MyDataTable.jsx";
 import NewForecastHeader from "./header/NewForecastHeader.jsx";
+import Accord from "@/components/accord/Accord.jsx";
 
 export default function ForecastFase02() {
   const horizontalScrollRef = useRef(null);
   const firstCardRef = useRef(null);
   const [cardWidth, setCardWidth] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [tableData, setTableData] = useState([]);
 
   // Estado para colunas e dados
   const [columnsState, setColumnsState] = useState([]);
@@ -60,6 +62,7 @@ export default function ForecastFase02() {
 
         setColumnsState(mergedCols);
         setDataState(transformedData);
+        setTableData(transformedData);
         setLoading(false);
       })
       .catch((error) =>
@@ -87,6 +90,7 @@ export default function ForecastFase02() {
       );
       setColumnsState(mergedCols);
       setDataState(transformedData);
+      setTableData(transformedData);
     } catch (error) {
       console.error("Erro ao carregar dados do servidor:", error);
       setColumnsState([]);
@@ -198,20 +202,55 @@ export default function ForecastFase02() {
     }
   };
 
+  const handleSave = async () => {
+    const modifiedRecords = tableData.filter((record) => record.isDirty);
+    if (modifiedRecords.length === 0) {
+      console.log("Nenhum registro modificado para salvar.");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token não encontrado. Faça login novamente.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        "https://api.logihub.space/api/update-forecast",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ records: modifiedRecords }),
+        }
+      );
+      if (!response.ok) throw new Error("Erro ao salvar os dados");
+      const result = await response.json();
+      console.log("Dados salvos com sucesso:", result);
+      showSuccess("Dados salvos com sucesso!");
+      setDataState((prev) =>
+        prev.map((record) => ({ ...record, isDirty: false }))
+      );
+      fetchData();
+    } catch (error) {
+      console.error("Erro:", error);
+    }
+  };
+
   // console.log("dataState", dataState);
   // console.log("Colunas geradas para a tabela:", columnsState);
 
   return (
     <>
       <div className=" mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700  dark:bg-gray-800">
-        {/* <ForecastHeader dataState={dataState} setDataState={setDataState} /> */}
-        <div className="p-5 sm:p-6">
-          <NewForecastHeader
-            dataState={dataState}
-            setDataState={setDataState}
-            fetchInitialData={fetchInitialData}
-          />
-        </div>
+        <Accord
+          dataState={dataState}
+          setDataState={setDataState}
+          tableData={tableData}
+          setTableData={setTableData}
+        />
+        {/* <ForecastHeader dataState={dataState} /> */}
         <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-2 ">
           <div className="w-1/2 flex flex-col">
             <h1>Save</h1>
@@ -227,7 +266,10 @@ export default function ForecastFase02() {
               <button className="rounded border-2 border-red-600 px-3 py-2 bg-red-600 mr-5 my-2">
                 Descart
               </button>
-              <button className="rounded border-2 border-green-600 px-3 py-2 bg-green-600 mr-5">
+              <button
+                onClick={handleSave}
+                className="rounded border-2 border-green-600 px-3 py-2 bg-green-600 mr-5"
+              >
                 Save
               </button>
             </div>
@@ -235,14 +277,18 @@ export default function ForecastFase02() {
         </div>
       </div>
 
-      <div className="p-5 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+      <div className="p-0 mt-5 bg-[#1f2937] border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
         {loading ? (
           <SkeletonDataGrid
             rows={5}
             columns={dataState[0] ? Object.keys(dataState[0]).length : 5}
           />
         ) : (
-          <MyDataTable columns={columnsState} data={dataState} />
+          <MyDataTable
+            columns={columnsState}
+            data={tableData}
+            setTableData={setTableData}
+          />
         )}
       </div>
     </>

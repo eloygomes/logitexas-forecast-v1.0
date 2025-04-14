@@ -14,7 +14,12 @@ import { BiRefresh } from "react-icons/bi";
 import { FaTimeline } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
 
-export default function ForecastFilters({ setDataState }) {
+export default function NewForecastHeader({
+  dataState,
+  setDataState,
+  tableData,
+  setTableData,
+}) {
   const [clients, setClients] = useState([]);
   const [partNumbers, setPartNumbers] = useState([]);
   const [namOptions, setNamOptions] = useState([]);
@@ -73,7 +78,11 @@ export default function ForecastFilters({ setDataState }) {
       } else {
         resp = await getFilteredData(filters);
       }
-      if (resp) setDataState(resp.rows);
+      // if (resp) setDataState(resp.rows);
+      if (resp) {
+        setDataState(resp.rows);
+        setTableData(resp.rows);
+      }
     } catch (err) {
       console.error("Erro ao atualizar dados:", err);
     }
@@ -155,6 +164,7 @@ export default function ForecastFilters({ setDataState }) {
       const result = await response.json();
       if (result && result.rows) {
         setDataState(result.rows);
+        setTableData(result.rows);
       }
     } catch (error) {
       console.error("Erro ao buscar dados iniciais:", error);
@@ -219,69 +229,7 @@ export default function ForecastFilters({ setDataState }) {
     },
   ];
 
-  //   const FilterGroup = ({ fetchInitialData }) => {
-  //     const handleClearFilters = () => {
-  //       setSelectedFilters({
-  //         client: "",
-  //         partNumber: "",
-  //         nam: "",
-  //         manager: "",
-  //         mktName: "",
-  //         runrate_npi: "",
-  //         product_group: "",
-  //         chave: "",
-  //       });
-  //       if (typeof fetchInitialData === "function") {
-  //         fetchInitialData();
-  //       }
-  //     };
-
-  //     return (
-  //       <div className="flex flex-col items-center gap-6">
-  //         <div className="flex flex-wrap gap-6">
-  //           {filterGroups.map(({ label, options, key }) => (
-  //             <div key={key} className="flex flex-col mx-auto">
-  //               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-  //                 {label}
-  //               </label>
-  //               <Select
-  //                 styles={{
-  //                   ...customSelectStyles,
-  //                   menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-  //                 }}
-  //                 options={options}
-  //                 value={
-  //                   selectedFilters[key]
-  //                     ? {
-  //                         value: selectedFilters[key],
-  //                         label: selectedFilters[key],
-  //                       }
-  //                     : null
-  //                 }
-  //                 onChange={(opt) =>
-  //                   setSelectedFilters((prev) => ({
-  //                     ...prev,
-  //                     [key]: opt?.value || "",
-  //                   }))
-  //                 }
-  //                 isSearchable
-  //                 placeholder="Selecione ou digite..."
-  //                 menuPlacement="top"
-  //               />
-  //             </div>
-  //           ))}
-  //         </div>
-  //         <button
-  //           className="mt-6 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700"
-  //           onClick={handleClearFilters}
-  //         >
-  //           Limpar Filtros
-  //         </button>
-  //       </div>
-  //     );
-  //   };
-
-  const FilterGroup = ({ fetchInitialData }) => {
+  const FilterGroup = () => {
     const handleClearFilters = () => {
       setSelectedFilters({
         client: "",

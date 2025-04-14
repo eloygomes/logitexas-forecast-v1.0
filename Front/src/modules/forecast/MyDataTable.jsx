@@ -1,4 +1,3 @@
-// src/modules/forecast/MyDataTable.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { VirtualizedDataTable } from "./VirtualizedDataTable.jsx";
 import {
@@ -8,69 +7,73 @@ import {
 
 // Configurações padrão para as colunas (por índice) - 47 itens já definidos
 const defaultColumnStyles = [
-  { width: "80px", headerBg: "#f0f0f0" }, // Coluna 1 (ex: id)
-  { width: "200px", headerBg: "#e0e0e0" }, // Coluna 2 (ex: Cliente)
-  { width: "120px", headerBg: "#d1d1d1" }, // Coluna 3 (ex: NAM)
-  { width: "120px", headerBg: "#d2d2d2" }, // Coluna 4 (ex: MANAGER)
-  { width: "120px", headerBg: "#d3d3d3" }, // Coluna 5 (ex: Part Number)
-  { width: "500px", headerBg: "#d4d4d4" }, // Coluna 6 (ex: MKT_Name)
-  { width: "300px", headerBg: "#d5d5d5" }, // Coluna 7 (ex: Runrate_NPI)
-  { width: "300px", headerBg: "#d6d6d6" }, // Coluna 8 (ex: Product_Group)
-  { width: "300px", headerBg: "#d7d7d7" }, // Coluna 9 (ex: CHAVE)
-  { width: "300px", headerBg: "#d8d8d8" }, // Coluna 10 (ex: Q1_NAM_Total_estoque_cliente_PÇS_)
-  { width: "300px", headerBg: "#d9d9d9" }, // Coluna 11 (ex: Q1_NAM_Estoque_Projetado)
-  { width: "300px", headerBg: "#dadada" }, // Coluna 12 (ex: Q1_NAM_Estoque_Ajustado)
-  { width: "300px", headerBg: "#dbdbdb" }, // Coluna 13 (ex: Q1_NAM_WOH)
-  { width: "300px", headerBg: "#dcdcdc" }, // Coluna 14 (ex: Q1_Abril)
-  { width: "300px", headerBg: "#dddddd" }, // Coluna 15 (ex: Q1_Maio)
-  { width: "300px", headerBg: "#dedede" }, // Coluna 16 (ex: Q1_Junho)
-  { width: "300px", headerBg: "#dfdfdf" }, // Coluna 17 (ex: Q1_Forecast_Q1)
-  { width: "300px", headerBg: "#e0e0e0" }, // Coluna 18 (ex: Q1_Total_Q1_ano_anterior)
-  { width: "300px", headerBg: "#e1e1e1" }, // Coluna 19 (ex: Q1_Forecast_Q1_Evento_Q1)
-  { width: "300px", headerBg: "#e2e2e2" }, // Coluna 20 (ex: Q1_Variação_YoY)
-  { width: "300px", headerBg: "#e3e3e3" }, // Coluna 21 (ex: Q2_Estoque_Projetado)
-  { width: "300px", headerBg: "#e4e4e4" }, // Coluna 22 (ex: Q2_WOH)
-  { width: "300px", headerBg: "#e5e5e5" }, // Coluna 23 (ex: Q2_Julho)
-  { width: "300px", headerBg: "#e6e6e6" }, // Coluna 24 (ex: Q2_Agosto)
-  { width: "300px", headerBg: "#e7e7e7" }, // Coluna 25 (ex: Q2_Setembro)
-  { width: "300px", headerBg: "#e8e8e8" }, // Coluna 26 (ex: Q2_Forecast_Q2)
-  { width: "300px", headerBg: "#e9e9e9" }, // Coluna 27 (ex: Q2_Total_Q2_ano_anterior)
-  { width: "300px", headerBg: "#eaeaea" }, // Coluna 28 (ex: Q2_Forecast_Q2_Evento_Q2)
-  { width: "300px", headerBg: "#ebebeb" }, // Coluna 29 (ex: Q2_Variação_YoY)
-  { width: "300px", headerBg: "#ececec" }, // Coluna 30 (ex: Q3_Estoque_Projetado)
-  { width: "300px", headerBg: "#e4e4e4" }, // Coluna 31 (ex: Q3_WOH)
-  { width: "300px", headerBg: "#e5e5e5" }, // Coluna 32 (ex: Q3_Outubro)
-  { width: "300px", headerBg: "#e6e6e6" }, // Coluna 33 (ex: Q3_Novembro)
-  { width: "300px", headerBg: "#e7e7e7" }, // Coluna 34 (ex: Q3_Dezembro)
-  { width: "300px", headerBg: "#e8e8e8" }, // Coluna 35 (ex: Q3_Forecast_Q3)
-  { width: "300px", headerBg: "#e9e9e9" }, // Coluna 36 (ex: Q3_Total_Q3_ano_anterior)
-  { width: "300px", headerBg: "#eaeaea" }, // Coluna 37 (ex: Q3_Forecast_Q3_Evento_Q3)
-  { width: "300px", headerBg: "#ebebeb" }, // Coluna 38 (ex: Q3_Variação_YoY)
-  { width: "300px", headerBg: "#ececec" }, // Coluna 39 (ex: Q4_Estoque_Projetado)
-  { width: "300px", headerBg: "#e4e4e4" }, // Coluna 40 (ex: Q4_WOH)
-  { width: "300px", headerBg: "#e5e5e5" }, // Coluna 41 (ex: Q4_Janeiro)
-  { width: "300px", headerBg: "#e6e6e6" }, // Coluna 42 (ex: Q4_Fevereiro)
-  { width: "300px", headerBg: "#e7e7e7" }, // Coluna 43 (ex: Q4_Março)
-  { width: "300px", headerBg: "#e8e8e8" }, // Coluna 44 (ex: Q4_Forecast_Q4)
-  { width: "300px", headerBg: "#e9e9e9" }, // Coluna 45 (ex: Q4_Total_Q4_ano_anterior)
-  { width: "300px", headerBg: "#eaeaea" }, // Coluna 46 (ex: Q4_Forecast_Q4_Evento_Q4)
-  { width: "300px", headerBg: "#ebebeb" }, // Coluna 47 (ex: Q4_Variação_YoY)
+  { width: "80px", headerBg: "#f0f0f0", label: "id" }, // 1
+  { width: "200px", headerBg: "#e0e0e0", label: "Cliente" }, // 2
+  { width: "120px", headerBg: "#d1d1d1", label: "NAM" }, // 3
+  { width: "150px", headerBg: "#d2d2d2", label: "MANAGER" }, // 4
+  { width: "130px", headerBg: "#d3d3d3", label: "Part Number" }, // 5
+  { width: "500px", headerBg: "#d4d4d4", label: "Descrição do produto" }, // 6
+  { width: "300px", headerBg: "#d5d5d5", label: "Runrate NPI" }, // 7
+  { width: "300px", headerBg: "#d6d6d6", label: "Product Group" }, // 8
+  { width: "300px", headerBg: "#d7d7d7", label: "CHAVE" }, // 9
+  {
+    width: "100px",
+    headerBg: "#EE9B00",
+    label: "Estoque Cliente (PÇS)",
+  },
+  { width: "100px", headerBg: "#EE9B00", label: "Estoque Projetado" },
+  { width: "100px", headerBg: "#EE9B00", label: "Estoque Ajustado" },
+  { width: "100px", headerBg: "#EE9B00", label: "WOH" },
+  { width: "100px", headerBg: "#EE9B00", label: "Abril" },
+  { width: "100px", headerBg: "#EE9B00", label: "Maio" },
+  { width: "100px", headerBg: "#EE9B00", label: "Junho" },
+  { width: "100px", headerBg: "#EE9B00", label: "Forecast Q1" },
+  { width: "100px", headerBg: "#EE9B00", label: "Total Q1 Ano Anterior" },
+  { width: "100px", headerBg: "#EE9B00", label: "Forecast & Evento Q1" },
+  { width: "100px", headerBg: "#EE9B00", label: "Variação YoY" },
+  { width: "100px", headerBg: "#0A9396", label: "Estoque_Projetado" },
+  { width: "100px", headerBg: "#0A9396", label: "WOH" },
+  { width: "100px", headerBg: "#0A9396", label: "Julho" },
+  { width: "100px", headerBg: "#0A9396", label: "Agosto" },
+  { width: "100px", headerBg: "#0A9396", label: "Setembro" },
+  { width: "100px", headerBg: "#0A9396", label: "Forecast_Q2" },
+  { width: "100px", headerBg: "#0A9396", label: "Total Q2 Ano Anterior" },
+  { width: "100px", headerBg: "#0A9396", label: "Forecast Q2 Evento Q2" },
+  { width: "100px", headerBg: "#0A9396", label: "Variação_YoY" },
+  { width: "100px", headerBg: "#94D2BD", label: "Estoque_Projetado" },
+  { width: "100px", headerBg: "#94D2BD", label: "WOH" },
+  { width: "100px", headerBg: "#94D2BD", label: "Outubro" },
+  { width: "100px", headerBg: "#94D2BD", label: "Novembro" },
+  { width: "100px", headerBg: "#94D2BD", label: "Dezembro" },
+  { width: "100px", headerBg: "#94D2BD", label: "Forecast Q3" },
+  { width: "100px", headerBg: "#94D2BD", label: "Total Q3 Ano Anterior" },
+  { width: "100px", headerBg: "#94D2BD", label: "Forecast Q3 Evento Q3" },
+  { width: "100px", headerBg: "#94D2BD", label: "Variação YoY" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Estoque Projetado" },
+  { width: "100px", headerBg: "#E9D8A6", label: "WOH" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Janeiro" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Fevereiro" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Março" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Forecast Q4" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Total Q4 ano anterior" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Forecast Q4 Evento Q4" },
+  { width: "100px", headerBg: "#E9D8A6", label: "Variação YoY" },
 ];
 
-export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
-  // Estado para armazenar os dados que serão renderizados (cópia de 'data')
-  const [tableData, setTableData] = useState([]);
+export function MyDataTable({
+  columns,
+  data,
+  setTableData,
+  cardTitle,
+  refetchData,
+  search,
+}) {
   // Estado para célula selecionada
   const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 });
   // Estado para célula em edição
   const [editingCell, setEditingCell] = useState(null);
   // Ref do container para capturar eventos de teclado e scroll
   const containerRef = useRef(null);
-
-  // Atualiza tableData sempre que 'data' mudar
-  useEffect(() => {
-    setTableData([...data]);
-  }, [data]);
 
   // Aplica os estilos padrão às colunas (largura e cor do header)
   const modifiedColumns = columns.map((col, index) => ({
@@ -79,10 +82,18 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
       col.width ||
       (defaultColumnStyles[index] && defaultColumnStyles[index].width) ||
       "150px",
+
+    // b) Use headerBg from either the column itself or fallback to defaultColumnStyles
     headerBg:
       col.headerBg ||
       (defaultColumnStyles[index] && defaultColumnStyles[index].headerBg) ||
       "gray",
+
+    // c) Here we inject a "label" that we can use as a fallback if col.header doesn’t exist
+    label:
+      col.label ||
+      (defaultColumnStyles[index] && defaultColumnStyles[index].label) ||
+      (typeof col.header === "string" ? col.header : "sem nome"),
   }));
 
   // gridTemplateColumns e totalWidth
@@ -132,7 +143,15 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
         col: selectedCell.col,
         key: colKey,
       });
-      handleCellEdit(selectedCell.row, colKey, e.key);
+      setTableData((prevData) => {
+        const updatedData = [...prevData];
+        updatedData[selectedCell.row] = {
+          ...updatedData[selectedCell.row],
+          [colKey]: e.key,
+          isDirty: true,
+        };
+        return updatedData;
+      });
       return;
     }
 
@@ -140,7 +159,7 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
     setSelectedCell((prev) => {
       let newRow = prev.row;
       let newCol = prev.col;
-      const totalRows = tableData.length;
+      const totalRows = data.length;
       const totalCols = modifiedColumns.length;
 
       switch (e.key) {
@@ -172,57 +191,6 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
     });
   };
 
-  // Edição de célula
-  const handleCellEdit = (rowIndex, colKey, newValue) => {
-    setTableData((prevData) => {
-      const updatedData = [...prevData];
-      updatedData[rowIndex] = {
-        ...updatedData[rowIndex],
-        [colKey]: newValue,
-        isDirty: true,
-      };
-      return updatedData;
-    });
-  };
-
-  // Salvar dados
-  const handleSave = async () => {
-    const modifiedRecords = tableData.filter((record) => record.isDirty);
-    if (modifiedRecords.length === 0) {
-      console.log("Nenhum registro modificado para salvar.");
-      return;
-    }
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("Token não encontrado. Faça login novamente.");
-      return;
-    }
-    try {
-      const response = await fetch(
-        "https://api.logihub.space/api/update-forecast",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ records: modifiedRecords }),
-        }
-      );
-      if (!response.ok) throw new Error("Erro ao salvar os dados");
-      const result = await response.json();
-      console.log("Dados salvos com sucesso:", result);
-      showSuccess("Dados salvos com sucesso!");
-      // limpa a flag isDirty
-      setTableData((prev) =>
-        prev.map((record) => ({ ...record, isDirty: false }))
-      );
-      if (refetchData) refetchData();
-    } catch (error) {
-      console.error("Erro:", error);
-    }
-  };
-
   useEffect(() => {
     containerRef.current?.focus();
   }, []);
@@ -239,10 +207,11 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
       {modifiedColumns.map((col, index) => (
         <div
           key={index}
-          className="p-2 text-center font-bold border break-words whitespace-normal"
+          className="p-2 text-center font-bold border break-words whitespace-normal py-5"
           style={{ backgroundColor: col.headerBg, color: "black" }}
         >
-          {typeof col.header === "function" ? col.header() : col.header}
+          {/* {typeof col.header === "function" ? col.header() : col.header} */}
+          {typeof col.header === "function" ? col.header() : col.label}
         </div>
       ))}
     </div>
@@ -251,7 +220,7 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
   // Render de cada linha
   const renderRow = (rowData, rowIndex) => (
     <div
-      className="grid border-b bg-gray-200"
+      className="grid border-b bg-gray-200 text-center"
       style={{
         width: totalWidth,
         gridTemplateColumns,
@@ -289,7 +258,15 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
                 type="text"
                 value={cellValue}
                 onChange={(e) =>
-                  handleCellEdit(rowIndex, col.accessorKey, e.target.value)
+                  setTableData((prevData) => {
+                    const updatedData = [...prevData];
+                    updatedData[rowIndex] = {
+                      ...updatedData[rowIndex],
+                      [col.accessorKey]: e.target.value,
+                      isDirty: true,
+                    };
+                    return updatedData;
+                  })
                 }
                 onBlur={() => {
                   setEditingCell(null);
@@ -301,10 +278,7 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
                     setEditingCell(null);
                     setSelectedCell((prev) => ({
                       ...prev,
-                      row:
-                        prev.row < tableData.length - 1
-                          ? prev.row + 1
-                          : prev.row,
+                      row: prev.row < data.length - 1 ? prev.row + 1 : prev.row,
                     }));
                     containerRef.current?.focus();
                   } else if (e.key === "Escape") {
@@ -327,7 +301,7 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
 
   return (
     <div
-      className="p-4 space-y-4 cursor-pointer"
+      className="p-0 space-y-4 cursor-pointer"
       style={{ outline: "none" }}
       tabIndex={0}
       onKeyDown={handleKeyDown}
@@ -348,12 +322,6 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
             }}
             className="max-w-sm border p-2 rounded-md"
           />
-          <button
-            onClick={handleSave}
-            className="bg-blue-500 text-white p-2 rounded-md"
-          >
-            Save
-          </button>
         </div>
       </div>
 
@@ -361,13 +329,13 @@ export function MyDataTable({ columns, data, cardTitle, refetchData, search }) {
       <div
         ref={containerRef}
         className="overflow-auto border rounded"
-        style={{ maxHeight: "600px" }}
+        // style={{ maxHeight: "600px" }}
       >
         <div style={{ width: totalWidth }}>
           {header}
           <VirtualizedDataTable
             columns={modifiedColumns}
-            data={tableData}
+            data={data}
             rowHeight={40}
             height={400}
             renderRow={renderRow}
