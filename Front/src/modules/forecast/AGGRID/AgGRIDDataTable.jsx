@@ -1,121 +1,206 @@
-// src/components/MyDataTable.jsx
-import React, {
-  useRef,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-} from "react";
+import React, { useRef, useMemo, useCallback, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-// import "ag-grid-community/styles/ag-grid.css";
-// import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeAlpine } from "ag-grid-community";
 
-// Register all Community features
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+
 ModuleRegistry.registerModules([AllCommunityModule]);
+
 export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
+  /* ------------------------------------------------------------------ */
+  /*  Refs e estado                                                     */
+  /* ------------------------------------------------------------------ */
   const gridRef = useRef(null);
+  const [rowData] = useState(data);
 
-  const [rowData, setRowData] = useState(data);
-  const [colDefs, setColDefs] = useState(columns);
+  // NOVO: rows fixados
+  const [pinnedTopRows, setPinnedTopRows] = useState([]);
+  const [pinnedBottomRows, setPinnedBottomRows] = useState([]);
 
-  // Build AG Grid column definitions
+  /* ------------------------------------------------------------------ */
+  /*  Definições de colunas                                             */
+  /* ------------------------------------------------------------------ */
   const columnDefs = useMemo(
     () =>
       columns.map((col) => {
-        // base da coluna
         const def = {
           headerName: col.header || col.label,
           field: col.accessorKey,
           width: col.width ? parseInt(col.width, 10) : 150,
-          editable: col.editable ?? false,
         };
-
-        // formata preço em BRL
         if (col.accessorKey === "price") {
-          def.valueFormatter = (params) =>
-            // Intl pega formatação local; aqui BRL
+          def.valueFormatter = (p) =>
             new Intl.NumberFormat("pt-BR", {
               style: "currency",
               currency: "BRL",
-            }).format(params.value);
+            }).format(p.value);
         }
-
-        // colore o status: ativo em verde, outro em vermelho
         if (col.accessorKey === "status") {
-          def.cellStyle = (params) => ({
-            color: params.value === "Ativo" ? "green" : "red",
+          def.cellStyle = (p) => ({
+            color: p.value === "Ativo" ? "green" : "red",
             fontWeight: "bold",
           });
         }
-
         if (col.accessorKey === "id") {
-          def.width = 50; // força 200px de largura
-          def.cellStyle = {
-            // estilo inline na célula
-            display: "flex",
-            flex: 1,
-            fontWeight: "bold",
-          };
+          def.width = 50;
+          def.cellStyle = { display: "flex", flex: 1 };
         }
-
         if (col.accessorKey === "Cliente") {
-          def.width = 300; // força 200px de largura
+          def.width = 300;
           def.cellStyle = {
-            // estilo inline na célula
-            backgroundColor: "#f0f0f0", // cor de fundo
-            color: "#333", // opcional: cor do texto
+            backgroundColor: "#f0f0f0",
+            color: "#333",
             fontWeight: "bold",
             flex: 1,
           };
-          // ou, usando classe CSS/Tailwind:
-          // def.cellClass = 'bg-gray-200 text-gray-800 font-bold';
         }
-
         return def;
       }),
     [columns]
   );
 
-  // Default column properties
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
       resizable: true,
       filter: true,
-
+      editable: true,
       minWidth: 80,
     }),
     []
   );
 
-  // When grid is ready, keep API reference
-  const onGridReady = useCallback((params) => {
-    gridRef.current = params.api;
-    params.api.sizeColumnsToFit();
+  /* ------------------------------------------------------------------ */
+  /*  Column pinning (já existia)                                       */
+  /* ------------------------------------------------------------------ */
+  const clearPinned = useCallback(() => {
+    gridRef.current?.applyColumnState({ defaultState: { pinned: null } });
+  }, []);
+  const togglePin = useCallback(() => {
+    const colId = document.getElementById("pinCol")?.value?.trim();
+    if (!colId) return;
+    const column = gridRef.current?.getColumn(colId);
+    if (!column) return;
+    const currentlyPinned = column.getPinned();
+    gridRef.current.applyColumnState({
+      state: [{ colId, pinned: currentlyPinned ? null : "left" }],
+      defaultState: { pinned: null },
+    });
   }, []);
 
-  //   console.log("colDefs", colDefs);
-  //   console.log("rowData", rowData);
+  /* ------------------------------------------------------------------ */
+  /*  Row pinning (NOVO)                                                */
+  /* ------------------------------------------------------------------ */
+  // helper para obter dados da linha pelo índice digitado
+  const getRowDataByIndexInput = () => {
+    const idx = Number(document.getElementById("pinRow")?.value);
+    if (Number.isNaN(idx)) return null;
+    const node = gridRef.current?.getDisplayedRowAtIndex(idx);
+    return node?.data ?? null;
+  };
 
+  const pinRowTop = () => {
+    const dataToPin = getRowDataByIndexInput();
+    if (!dataToPin) return;
+    setPinnedTopRows((prev) => [...prev, { ...dataToPin }]);
+  };
+
+  const pinRowBottom = () => {
+    const dataToPin = getRowDataByIndexInput();
+    if (!dataToPin) return;
+    setPinnedBottomRows((prev) => [...prev, { ...dataToPin }]);
+  };
+
+  const unpinSelectedPinned = () => {
+    const selected = gridRef.current?.getSelectedNodes();
+    if (!selected?.length) return;
+    const isPinnedTop = selected[0].rowPinned === "top";
+    const isPinnedBottom = selected[0].rowPinned === "bottom";
+    if (!isPinnedTop && !isPinnedBottom) return;
+
+    const toRemove = selected.map((n) => n.data);
+    if (isPinnedTop) {
+      setPinnedTopRows((prev) => prev.filter((r) => !toRemove.includes(r)));
+    } else if (isPinnedBottom) {
+      setPinnedBottomRows((prev) => prev.filter((r) => !toRemove.includes(r)));
+    }
+  };
+
+  const clearPinnedRows = () => {
+    setPinnedTopRows([]);
+    setPinnedBottomRows([]);
+  };
+
+  /* ------------------------------------------------------------------ */
+  /*  Render                                                            */
+  /* ------------------------------------------------------------------ */
   return (
     <div className="space-y-4">
       {cardTitle && <h2 className="text-xl font-semibold">{cardTitle}</h2>}
-      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-        Freeze from Selected Cell
-      </button>
-      <div className="ag-theme-alpine h-[1000px] w-full">
+
+      {/* Barra de controles */}
+      <div className="flex flex-wrap items-center gap-2">
+        {/* ----- Column pin ----- */}
+        <button
+          onClick={clearPinned}
+          className="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-800"
+        >
+          Clear&nbsp;Pinned&nbsp;Cols
+        </button>
+        <input
+          id="pinCol"
+          placeholder="Col (field)"
+          className="w-40 rounded border px-1 py-0.5 text-sm"
+        />
+        <button
+          onClick={togglePin}
+          className="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-800"
+        >
+          Toggle&nbsp;Pin&nbsp;Col
+        </button>
+
+        {/* ----- Row pin (NOVO) ----- */}
+        <span className="ml-4 text-sm">Row&nbsp;(idx):</span>
+        <input
+          id="pinRow"
+          type="number"
+          placeholder="nº"
+          className="w-16 rounded border px-1 py-0.5 text-sm"
+        />
+        <button
+          onClick={pinRowTop}
+          className="rounded bg-blue-700 px-3 py-1 text-sm text-white hover:bg-blue-800"
+        >
+          Pin&nbsp;Top
+        </button>
+
+        <button
+          onClick={unpinSelectedPinned}
+          className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        >
+          Unpin&nbsp;Selected
+        </button>
+        <button
+          onClick={clearPinnedRows}
+          className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        >
+          Clear&nbsp;All&nbsp;Pinned&nbsp;Rows
+        </button>
+      </div>
+
+      {/* Grade de dados */}
+      <div className="ag-theme-alpine h-[650px] w-full">
         <AgGridReact
-          theme={themeAlpine}
           ref={gridRef}
-          onGridReady={onGridReady}
+          onGridReady={(p) => (gridRef.current = p.api)}
           columnDefs={columnDefs}
-          //   columnDefs={colDefs}
           defaultColDef={defaultColDef}
-          //   rowData={data}
           rowData={rowData}
-          rowSelection={{ mode: "singleRow" }}
+          rowSelection="single"
+          /* NOVO: pinned rows */
+          pinnedTopRowData={pinnedTopRows}
+          pinnedBottomRowData={pinnedBottomRows}
         />
       </div>
     </div>
