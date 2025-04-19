@@ -15,6 +15,7 @@ import { SkeletonDataGrid } from "@/components/skeleton/SkeletonDataGrid";
 import { MyDataTable } from "./MyDataTable.jsx";
 import NewForecastHeader from "./header/NewForecastHeader.jsx";
 import Accord from "@/components/accord/Accord.jsx";
+import { AgGRIDDataTable } from "./AGGRID/AgGRIDDataTable.jsx";
 
 export default function ForecastFase02() {
   const horizontalScrollRef = useRef(null);
@@ -26,6 +27,76 @@ export default function ForecastFase02() {
   // Estado para colunas e dados
   const [columnsState, setColumnsState] = useState([]);
   const [dataState, setDataState] = useState([]);
+
+  // const columns = [
+  //   { width: "80px", headerBg: "#f0f0f0", header: "id" }, // 1
+  //   { width: "200px", headerBg: "#e0e0e0", header: "Cliente" }, // 2
+  //   { width: "120px", headerBg: "#d1d1d1", header: "NAM" }, // 3
+  //   { width: "150px", headerBg: "#d2d2d2", header: "MANAGER" }, // 4
+  //   { width: "130px", headerBg: "#d3d3d3", header: "Part Number" }, // 5
+  //   { width: "500px", headerBg: "#d4d4d4", header: "Descrição do produto" }, // 6
+  //   { width: "300px", headerBg: "#d5d5d5", header: "Runrate NPI" }, // 7
+  //   { width: "300px", headerBg: "#d6d6d6", header: "Product Group" }, // 8
+  //   { width: "300px", headerBg: "#d7d7d7", header: "CHAVE" }, // 9
+  //   {
+  //     width: "100px",
+  //     headerBg: "#EE9B00",
+  //     header: "Estoque Cliente (PÇS)",
+  //   },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Estoque Projetado" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Estoque Ajustado" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "WOH" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Abril" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Maio" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Junho" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Forecast Q1" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Total Q1 Ano Anterior" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Forecast & Evento Q1" },
+  //   { width: "100px", headerBg: "#EE9B00", header: "Variação YoY" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Estoque_Projetado" },
+  //   { width: "100px", headerBg: "#0A9396", header: "WOH" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Julho" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Agosto" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Setembro" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Forecast_Q2" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Total Q2 Ano Anterior" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Forecast Q2 Evento Q2" },
+  //   { width: "100px", headerBg: "#0A9396", header: "Variação_YoY" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Estoque_Projetado" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "WOH" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Outubro" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Novembro" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Dezembro" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Forecast Q3" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Total Q3 Ano Anterior" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Forecast Q3 Evento Q3" },
+  //   { width: "100px", headerBg: "#94D2BD", header: "Variação YoY" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Estoque Projetado" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "WOH" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Janeiro" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Fevereiro" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Março" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Forecast Q4" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Total Q4 ano anterior" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Forecast Q4 Evento Q4" },
+  //   { width: "100px", headerBg: "#E9D8A6", header: "Variação YoY" },
+  // ];
+
+  // Define your columns
+  const columns = [
+    { header: "ID", accessorKey: "id", width: "10" },
+    { header: "Name", accessorKey: "name", width: "150" },
+    { header: "Email", accessorKey: "email", width: "200" },
+    // ... adicione mais colunas conforme necessário
+  ];
+
+  // Sample row data
+  const data = [
+    { id: 1, name: "Alice", email: "alice@example.com" },
+    { id: 2, name: "Bob", email: "bob@example.com" },
+    { id: 3, name: "Charlie", email: "charlie@example.com" },
+    // ... adicione mais linhas conforme necessário
+  ];
 
   // Quando o componente monta, pega a largura do primeiro card
   useEffect(() => {
@@ -240,6 +311,7 @@ export default function ForecastFase02() {
 
   // console.log("dataState", dataState);
   // console.log("Colunas geradas para a tabela:", columnsState);
+  // console.log(tableData);
 
   return (
     <>
@@ -284,10 +356,18 @@ export default function ForecastFase02() {
             columns={dataState[0] ? Object.keys(dataState[0]).length : 5}
           />
         ) : (
-          <MyDataTable
+          // <MyDataTable
+          //   columns={columnsState}
+          //   data={tableData}
+          //   setTableData={setTableData}
+          // />
+
+          <AgGRIDDataTable
+            style={{ height: 500 }}
+            // columns={columns}
             columns={columnsState}
             data={tableData}
-            setTableData={setTableData}
+            cardTitle="User Data"
           />
         )}
       </div>

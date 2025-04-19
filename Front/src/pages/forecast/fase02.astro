@@ -1,17 +1,8 @@
 ---
-import { SonnerToastProvider } from "@/components/sooner/SonnerToastProvider";
 import LayoutStacked from "../../app/LayoutStacked.astro";
+import { SonnerToastProvider } from "@/components/sooner/SonnerToastProvider";
 import ForecastFase02 from "../../modules/forecast/ForecastFase02.jsx";
 ---
-
-<script is:inline>
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/authentication/sign-in";
-    }
-  }
-</script>
 
 <LayoutStacked>
   <SonnerToastProvider client:load>
