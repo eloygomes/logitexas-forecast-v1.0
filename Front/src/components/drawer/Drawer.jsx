@@ -15,12 +15,12 @@ export default function Drawer({ isOpen, setIsOpen, Content }) {
           role="dialog"
           aria-labelledby="drawer-bottom-label"
         >
-          <h5
+          {/* <h5
             id="drawer-bottom-label"
             className="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
           >
             Filter
-          </h5>
+          </h5> */}
 
           {/* Close Button */}
           <button

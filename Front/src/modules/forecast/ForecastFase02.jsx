@@ -29,22 +29,6 @@ export default function ForecastFase02() {
   const [dataState, setDataState] = useState([]);
   const [pinnedTopRows, setPinnedTopRows] = useState([]);
 
-  // Define your columns
-  const columns = [
-    { header: "ID", accessorKey: "id", width: "10" },
-    { header: "Name", accessorKey: "name", width: "150" },
-    { header: "Email", accessorKey: "email", width: "200" },
-    // ... adicione mais colunas conforme necessário
-  ];
-
-  // Sample row data
-  const data = [
-    { id: 1, name: "Alice", email: "alice@example.com" },
-    { id: 2, name: "Bob", email: "bob@example.com" },
-    { id: 3, name: "Charlie", email: "charlie@example.com" },
-    // ... adicione mais linhas conforme necessário
-  ];
-
   // Quando o componente monta, pega a largura do primeiro card
   useEffect(() => {
     if (firstCardRef.current) {
@@ -87,6 +71,14 @@ export default function ForecastFase02() {
         console.error("Erro ao carregar dados do servidor:", error)
       );
   }, []);
+
+  const handleCellValueChanged = (params) => {
+    setTableData((prev) =>
+      prev.map((row) =>
+        row.id === params.data.id ? { ...params.data, isDirty: true } : row
+      )
+    );
+  };
 
   // Dentro de ForecastFase02.jsx:
   const fetchData = async () => {
@@ -318,7 +310,7 @@ export default function ForecastFase02() {
           onClearRows={clearPinnedRows}
         />
         {/* <ForecastHeader dataState={dataState} /> */}
-        <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-2 ">
+        <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-1 ">
           <div className="w-1/2 flex flex-col">
             <h1>Save</h1>
             <h5 className="text-xs">
@@ -330,7 +322,7 @@ export default function ForecastFase02() {
           </div>
           <div className="w-1/2 flex flex-row">
             <div className="ml-auto ">
-              <button className="rounded border-2 border-red-600 px-3 py-2 bg-red-600 mr-5 my-2">
+              <button className="rounded border-2 border-red-600 px-3 py-2 bg-red-600 mr-5 my-1">
                 Descart
               </button>
               <button
@@ -368,6 +360,7 @@ export default function ForecastFase02() {
             onClearColumns={clearPinnedColumns}
             onPinRow={pinRowToFocused}
             onClearRows={clearPinnedRows}
+            onCellValueChanged={handleCellValueChanged}
           />
         )}
       </div>

@@ -13,6 +13,8 @@ import { TbFreezeColumn } from "react-icons/tb";
 import { BiRefresh } from "react-icons/bi";
 import { FaTimeline } from "react-icons/fa6";
 import { MdDeleteOutline } from "react-icons/md";
+import DrawerContentContentTimeline from "../contentOfDrawerContent/drawerContentContentTimeline";
+import { navigate } from "astro:transitions/client";
 
 export default function NewForecastHeader({
   dataState,
@@ -32,7 +34,6 @@ export default function NewForecastHeader({
   const [runrateNPIOptions, setRunrateNPIOptions] = useState([]);
   const [productGroupOptions, setProductGroupOptions] = useState([]);
   const [chaveOptions, setChaveOptions] = useState([]);
-
   const [selectedFilters, setSelectedFilters] = useState({
     client: "",
     partNumber: "",
@@ -43,8 +44,8 @@ export default function NewForecastHeader({
     product_group: "",
     chave: "",
   });
-
   const [isOpen, setIsOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState(null);
 
   const customSelectStyles = {
     container: (provided) => ({ ...provided, width: "250px", height: "40px" }),
@@ -298,11 +299,7 @@ export default function NewForecastHeader({
 
   return (
     <>
-      <Drawer
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        Content={<FilterGroup fetchInitialData={fetchInitialData} />}
-      />
+      <Drawer isOpen={isOpen} setIsOpen={setIsOpen} Content={drawerContent} />
       <div className="flex flex-col h-full  ">
         <div className="flex flex-row text-white mb-5">
           <div className="w-1/2">
@@ -324,7 +321,7 @@ export default function NewForecastHeader({
                       text={"Files"}
                       icon={<GoFileSymlinkFile />}
                       openMenuStatus={false}
-                      // fn={pinFocusedColumn}
+                      // fn={navigate(`/forecast/fase02/`)}
                     />
                   </div>
                   <div className="flex flex-row ml-5">
@@ -349,6 +346,10 @@ export default function NewForecastHeader({
                     openMenuStatus={true}
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
+                    setDrawerContent={setDrawerContent}
+                    drawerContentContent={
+                      <FilterGroup fetchInitialData={fetchInitialData} />
+                    }
                   />
                 </div>
               </div>
@@ -378,7 +379,11 @@ export default function NewForecastHeader({
                     icon_description="icon_description"
                     text={"Timeline"}
                     icon={<FaTimeline />}
-                    openMenuStatus={false}
+                    openMenuStatus={true}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    setDrawerContent={setDrawerContent}
+                    drawerContentContent={<DrawerContentContentTimeline />}
                   />
                 </div>
               </div>
@@ -424,22 +429,7 @@ export default function NewForecastHeader({
 
               <div className="w-3/12 flex flex-col ">
                 <h1 className="text-sm ">&nbsp;</h1>
-                <div className="flex flex-row ">
-                  {/* <ForecastIcons
-                    icon_description="icon_description"
-                    text={"Rows"}
-                    icon={<BiRefresh />}
-                    openMenuStatus={false}
-                    fn={onPinRow}
-                  />
-                  <ForecastIcons
-                    icon_description="icon_description"
-                    text={"Clear"}
-                    icon={<TbFreezeColumn />}
-                    openMenuStatus={false}
-                    fn={onClearRows}
-                  /> */}
-                </div>
+                <div className="flex flex-row "></div>
               </div>
               <div className="w-3/12 flex flex-col ">
                 <h1 className="text-sm ">Approval</h1>

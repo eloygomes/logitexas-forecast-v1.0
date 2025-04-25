@@ -1,0 +1,1 @@
+import{j as t}from"./jsx-runtime.CLpGMVip.js";import"./index.DeRK_wps.js";import"./_commonjsHelpers.CqkleIqs.js";function i(){return t.jsx("div",{className:"text-6xl text-white",children:"test"})}export{i as default};

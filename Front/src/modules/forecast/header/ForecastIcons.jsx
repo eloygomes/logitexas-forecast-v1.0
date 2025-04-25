@@ -1,3 +1,4 @@
+import { navigate } from "astro/virtual-modules/transitions-router.js";
 import React from "react";
 
 export default function ForecastIcons({
@@ -9,6 +10,8 @@ export default function ForecastIcons({
   fn,
   openMenuStatus,
   size = 16,
+  setDrawerContent,
+  drawerContentContent,
 }) {
   return (
     <div className="flex flex-col items-start">
@@ -21,8 +24,13 @@ export default function ForecastIcons({
         onClick={() => {
           if (openMenuStatus) {
             setIsOpen(!isOpen);
+            setDrawerContent(drawerContentContent);
           }
           fn && fn();
+          if (text === "Files") {
+            navigate(`/mediaCentral`);
+          }
+          // Content={<FilterGroup fetchInitialData={fetchInitialData} />}
         }}
       >
         {React.cloneElement(icon, { size })}
@@ -31,3 +39,5 @@ export default function ForecastIcons({
     </div>
   );
 }
+
+// Content={<FilterGroup fetchInitialData={fetchInitialData} />}
