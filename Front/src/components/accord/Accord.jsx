@@ -5,6 +5,10 @@ export default function Accord({
   setDataState,
   tableData,
   setTableData,
+  pinFocusedColumn,
+  onPinRow,
+  onClearColumns,
+  onClearRows,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +22,7 @@ export default function Accord({
           aria-expanded={isOpen}
           aria-controls="accordion-collapse-body-1"
         >
-          <h1 className="text-xl text-[goldenrod] font-bold">NAM SCREEN</h1>
+          <h1 className="text-xl text-[goldenrod] font-bold">FORECAST</h1>
           <svg
             className={`w-3 h-3 transition-transform ${
               !isOpen ? "rotate-180" : ""
@@ -50,6 +54,10 @@ export default function Accord({
             setDataState={setDataState}
             tableData={tableData}
             setTableData={setTableData}
+            pinFocusedColumn={pinFocusedColumn}
+            onPinRow={onPinRow}
+            onClearColumns={onClearColumns}
+            onClearRows={onClearRows}
           />
         </div>
       )}

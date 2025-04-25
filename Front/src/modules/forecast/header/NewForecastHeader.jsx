@@ -19,6 +19,10 @@ export default function NewForecastHeader({
   setDataState,
   tableData,
   setTableData,
+  pinFocusedColumn,
+  onPinRow,
+  onClearColumns,
+  onClearRows,
 }) {
   const [clients, setClients] = useState([]);
   const [partNumbers, setPartNumbers] = useState([]);
@@ -302,80 +306,158 @@ export default function NewForecastHeader({
       <div className="flex flex-col h-full  ">
         <div className="flex flex-row text-white mb-5">
           <div className="w-1/2">
-            <h1 className="text-xl font-bold">Forecast</h1>
+            <h1 className="text-xl font-bold">NAM SCREEN</h1>
           </div>
           <div className="w-1/2 text-right">
             <h1 className="text-xl font-bold">NOME DO ARQUIVO.CSV</h1>
           </div>
         </div>
         <div className="flex flex-row text-white mb-5">
-          <div className="w-1/2 flex flex-col justify-between mr-10">
-            <div className="w-full flex flex-row justify-between">
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Files"}
-                  icon={<GoFileSymlinkFile />}
-                />
-              </div>
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Filter"}
-                  icon={<FaFilter />}
-                  isOpen={isOpen}
-                  setIsOpen={setIsOpen}
-                />
-              </div>
+          <div className="w-1/2 flex flex-col  mr-10">
+            <div className="w-full flex flex-row mb-10">
               <div className="w-3/12 flex flex-col ">
-                <h1 className="text-sm mt-3">Export</h1>
-                <div className="flex flex-row py-2">
+                <h1 className="text-sm mt-3">&nbsp;</h1>
+                <div className="flex flex-row ">
+                  <div className="flex flex-row ">
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Files"}
+                      icon={<GoFileSymlinkFile />}
+                      openMenuStatus={false}
+                      // fn={pinFocusedColumn}
+                    />
+                  </div>
+                  <div className="flex flex-row ml-5">
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Refresh"}
+                      icon={<BiRefresh />}
+                      openMenuStatus={false}
+                      // fn={pinFocusedColumn}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-3/12 flex flex-col pl-3 ">
+                <h1 className="text-sm mt-3">&nbsp;</h1>
+                <div className="flex flex-row ">
                   <ForecastIcons
                     icon_description="icon_description"
-                    icon={<BsFiletypeCsv />}
-                  />
-                  <ForecastIcons
-                    icon_description="icon_description"
-                    icon={<BsFiletypeXls />}
+                    text={"Filter"}
+                    icon={<FaFilter />}
+                    openMenuStatus={true}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
                   />
                 </div>
               </div>
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Approval"}
-                  icon={<FaCheckCircle />}
-                />
+              <div className="w-3/12 flex flex-col ">
+                <h1 className="text-[13px] mt-3">Export</h1>
+                <div className="flex flex-row ">
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Xls"}
+                    icon={<BsFiletypeCsv />}
+                    openMenuStatus={false}
+                    // fn={pinFocusedColumn}
+                  />
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Csv"}
+                    icon={<BsFiletypeXls />}
+                    openMenuStatus={false}
+                    // fn={onPinRow}
+                  />
+                </div>
+              </div>
+              <div className="w-3/12 flex flex-col ">
+                <h1 className="text-sm mt-3">&nbsp;</h1>
+                <div className="flex flex-row ">
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Timeline"}
+                    icon={<FaTimeline />}
+                    openMenuStatus={false}
+                  />
+                </div>
               </div>
             </div>
-            <div className="w-full flex flex-row justify-between">
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Freeze Column"}
-                  icon={<TbFreezeColumn />}
-                />
+            <div className="w-full flex flex-row ">
+              <div className="w-3/12 flex flex-col ">
+                <h1 className="text-md ">Freeze</h1>
+                <div className="flex flex-row ">
+                  <div className="flex flex-row">
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Column"}
+                      icon={<TbFreezeColumn />}
+                      openMenuStatus={false}
+                      fn={pinFocusedColumn}
+                    />
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Clear"}
+                      icon={<TbFreezeColumn />}
+                      openMenuStatus={false}
+                      fn={onClearColumns}
+                    />
+                  </div>
+                  <div className="flex flex-row ml-3">
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Rows"}
+                      icon={<BiRefresh />}
+                      openMenuStatus={false}
+                      fn={onPinRow}
+                    />
+                    <ForecastIcons
+                      icon_description="icon_description"
+                      text={"Clear"}
+                      icon={<TbFreezeColumn />}
+                      openMenuStatus={false}
+                      fn={onClearRows}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Refresh"}
-                  icon={<BiRefresh />}
-                />
+
+              <div className="w-3/12 flex flex-col ">
+                <h1 className="text-sm ">&nbsp;</h1>
+                <div className="flex flex-row ">
+                  {/* <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Rows"}
+                    icon={<BiRefresh />}
+                    openMenuStatus={false}
+                    fn={onPinRow}
+                  />
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Clear"}
+                    icon={<TbFreezeColumn />}
+                    openMenuStatus={false}
+                    fn={onClearRows}
+                  /> */}
+                </div>
               </div>
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Timeline"}
-                  icon={<FaTimeline />}
-                />
-              </div>
-              <div className="w-3/12">
-                <ForecastIcons
-                  icon_description="icon_description"
-                  text={"Delete "}
-                  icon={<MdDeleteOutline />}
-                />
+              <div className="w-3/12 flex flex-col ">
+                <h1 className="text-sm ">Approval</h1>
+                <div className="flex flex-row ">
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Agree"}
+                    icon={<FaCheckCircle />}
+                    openMenuStatus={false}
+                    // fn={pinFocusedColumn}
+                  />
+                  <ForecastIcons
+                    icon_description="icon_description"
+                    text={"Decline"}
+                    icon={<MdDeleteOutline />}
+                    openMenuStatus={false}
+                  />
+                </div>
               </div>
             </div>
           </div>

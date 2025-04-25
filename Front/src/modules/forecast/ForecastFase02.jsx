@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import ForecastDataGrid from "./ForecastDataGrid";
 import ForecastHeader from "./ForecastHeader";
 
@@ -27,60 +27,7 @@ export default function ForecastFase02() {
   // Estado para colunas e dados
   const [columnsState, setColumnsState] = useState([]);
   const [dataState, setDataState] = useState([]);
-
-  // const columns = [
-  //   { width: "80px", headerBg: "#f0f0f0", header: "id" }, // 1
-  //   { width: "200px", headerBg: "#e0e0e0", header: "Cliente" }, // 2
-  //   { width: "120px", headerBg: "#d1d1d1", header: "NAM" }, // 3
-  //   { width: "150px", headerBg: "#d2d2d2", header: "MANAGER" }, // 4
-  //   { width: "130px", headerBg: "#d3d3d3", header: "Part Number" }, // 5
-  //   { width: "500px", headerBg: "#d4d4d4", header: "Descrição do produto" }, // 6
-  //   { width: "300px", headerBg: "#d5d5d5", header: "Runrate NPI" }, // 7
-  //   { width: "300px", headerBg: "#d6d6d6", header: "Product Group" }, // 8
-  //   { width: "300px", headerBg: "#d7d7d7", header: "CHAVE" }, // 9
-  //   {
-  //     width: "100px",
-  //     headerBg: "#EE9B00",
-  //     header: "Estoque Cliente (PÇS)",
-  //   },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Estoque Projetado" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Estoque Ajustado" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "WOH" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Abril" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Maio" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Junho" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Forecast Q1" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Total Q1 Ano Anterior" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Forecast & Evento Q1" },
-  //   { width: "100px", headerBg: "#EE9B00", header: "Variação YoY" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Estoque_Projetado" },
-  //   { width: "100px", headerBg: "#0A9396", header: "WOH" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Julho" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Agosto" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Setembro" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Forecast_Q2" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Total Q2 Ano Anterior" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Forecast Q2 Evento Q2" },
-  //   { width: "100px", headerBg: "#0A9396", header: "Variação_YoY" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Estoque_Projetado" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "WOH" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Outubro" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Novembro" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Dezembro" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Forecast Q3" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Total Q3 Ano Anterior" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Forecast Q3 Evento Q3" },
-  //   { width: "100px", headerBg: "#94D2BD", header: "Variação YoY" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Estoque Projetado" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "WOH" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Janeiro" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Fevereiro" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Março" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Forecast Q4" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Total Q4 ano anterior" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Forecast Q4 Evento Q4" },
-  //   { width: "100px", headerBg: "#E9D8A6", header: "Variação YoY" },
-  // ];
+  const [pinnedTopRows, setPinnedTopRows] = useState([]);
 
   // Define your columns
   const columns = [
@@ -309,6 +256,50 @@ export default function ForecastFase02() {
     }
   };
 
+  const gridRef = useRef(null); // componente
+  const apiRef = useRef(null); // API do AG Grid
+
+  const pinFocusedColumn = useCallback(() => {
+    const focused = apiRef.current?.getFocusedCell();
+    if (!focused) return;
+    const { column } = focused;
+    apiRef.current.applyColumnState({
+      state: [
+        {
+          colId: column.getColId(),
+          pinned: column.getPinned() ? null : "left",
+        },
+      ],
+      defaultState: { pinned: null },
+    });
+  }, []);
+
+  // limpa todas as colunas pin
+  const clearPinnedColumns = useCallback(() => {
+    apiRef.current?.applyColumnState({ defaultState: { pinned: null } });
+  }, []);
+
+  // “congela” a linha da célula focada
+  const pinRowToFocused = useCallback(() => {
+    const api = apiRef.current;
+    if (!api) return;
+    const focused = api.getFocusedCell();
+    if (!focused) return;
+    const node = api.getDisplayedRowAtIndex(focused.rowIndex);
+    if (!node) return;
+
+    setPinnedTopRows((prev) => {
+      const already = prev.some((r) => r.id === node.data.id);
+      if (already) return prev;
+      return [...prev, { ...node.data }];
+    });
+  }, []);
+
+  // limpa todas as linhas pin
+  const clearPinnedRows = useCallback(() => {
+    setPinnedTopRows([]);
+  }, []);
+
   // console.log("dataState", dataState);
   // console.log("Colunas geradas para a tabela:", columnsState);
   // console.log(tableData);
@@ -321,6 +312,10 @@ export default function ForecastFase02() {
           setDataState={setDataState}
           tableData={tableData}
           setTableData={setTableData}
+          pinFocusedColumn={pinFocusedColumn}
+          onPinRow={pinRowToFocused}
+          onClearColumns={clearPinnedColumns}
+          onClearRows={clearPinnedRows}
         />
         {/* <ForecastHeader dataState={dataState} /> */}
         <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-2 ">
@@ -364,10 +359,15 @@ export default function ForecastFase02() {
 
           <AgGRIDDataTable
             style={{ height: 500 }}
-            // columns={columns}
             columns={columnsState}
             data={tableData}
             cardTitle="User Data"
+            pinFocusedColumn={pinFocusedColumn}
+            apiReff={apiRef}
+            pinnedTopRows={pinnedTopRows}
+            onClearColumns={clearPinnedColumns}
+            onPinRow={pinRowToFocused}
+            onClearRows={clearPinnedRows}
           />
         )}
       </div>

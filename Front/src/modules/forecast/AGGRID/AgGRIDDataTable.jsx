@@ -207,26 +207,46 @@
 //   );
 // }
 
-import React, { useRef, useMemo, useCallback, useState } from "react";
+import React, { useRef, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
-// import "ag-grid-community/styles/ag-grid.css";
-// import "ag-grid-community/styles/ag-theme-alpine.css";
+import {
+  ModuleRegistry,
+  AllCommunityModule,
+  themeAlpine,
+} from "ag-grid-community";
 
-import { themeAlpine } from "ag-grid-community";
-
-import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+// Registrar módulos AG Grid
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
-  /* refs */
-  const gridRef = useRef(null); // componente
-  const apiRef = useRef(null); // API do AG Grid
+/**
+ * Componente de tabela AG Grid com congelamento de colunas e linhas.
+ *
+ * Props:
+ * - columns: definições de coluna (array)
+ * - data: dados das linhas (array)
+ * - cardTitle: título opcional da tabela (string)
+ * - pinnedTopRows: linhas congeladas no topo (array)
+ * - onClearColumns: handler para limpar pins de coluna (function)
+ * - onPinRow: handler para congelar linha focada (function)
+ * - onClearRows: handler para limpar pins de linha (function)
+ * - pinFocusedColumn: handler para congelar coluna focada (function)
+ * - apiReff: useRef do AG Grid API, preenchido no onGridReady (object)
+ */
+export function AgGRIDDataTable({
+  columns,
+  data,
+  cardTitle,
+  pinnedTopRows,
+  onClearColumns,
+  onPinRow,
+  onClearRows,
+  pinFocusedColumn,
+  apiReff,
+}) {
+  const gridRef = useRef(null);
+  const gridApiRef = apiReff;
 
-  /* estado */
-  const [rowData] = useState(data);
-  const [pinnedTopRows, setPinnedTopRows] = useState([]);
-
-  /* colDefs */
+  // Definição das colunas
   const columnDefs = useMemo(
     () =>
       columns.map((col) => {
@@ -267,6 +287,7 @@ export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
     [columns]
   );
 
+  // Definições padrão de coluna
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
@@ -278,93 +299,19 @@ export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
     []
   );
 
-  /* -------- helpers -------- */
-  // colunas
-  const pinFocusedColumn = useCallback(() => {
-    const focused = apiRef.current?.getFocusedCell();
-    if (!focused) return;
-    const { column } = focused;
-    apiRef.current.applyColumnState({
-      state: [
-        {
-          colId: column.getColId(),
-          pinned: column.getPinned() ? null : "left",
-        },
-      ],
-      defaultState: { pinned: null },
-    });
-  }, []);
-
-  const clearPinnedColumns = useCallback(() => {
-    apiRef.current?.applyColumnState({ defaultState: { pinned: null } });
-  }, []);
-
-  const pinRowToFocused = () => {
-    const api = apiRef.current;
-    if (!api) return;
-
-    const focused = api.getFocusedCell();
-    if (!focused) return;
-
-    const node = api.getDisplayedRowAtIndex(focused.rowIndex);
-    if (!node) return;
-
-    setPinnedTopRows((prev) => {
-      // evita duplicar a mesma linha (use a chave única que existir no seu dataset)
-      const isAlreadyPinned = prev.some((r) => r.id === node.data.id);
-      if (isAlreadyPinned) return prev;
-
-      // mantém a ordem original (pode inverter se quiser novas no topo)
-      return [...prev, { ...node.data }];
-    });
-  };
-
-  const clearPinnedRows = () => setPinnedTopRows([]);
-
-  /* -------- render -------- */
   return (
     <div className="space-y-4">
-      {cardTitle && <h2 className="text-xl font-semibold">{cardTitle}</h2>}
-
-      {/* controles */}
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          onClick={pinFocusedColumn}
-          className="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-800"
-        >
-          Freeze&nbsp;Column
-        </button>
-        <button
-          onClick={clearPinnedColumns}
-          className="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-800"
-        >
-          Clear&nbsp;Column&nbsp;Pins
-        </button>
-        <button
-          onClick={pinRowToFocused}
-          className="rounded bg-blue-700 px-3 py-1 text-sm text-white hover:bg-blue-800"
-        >
-          Freeze&nbsp;Row
-        </button>
-        <button
-          onClick={clearPinnedRows}
-          className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
-        >
-          Clear&nbsp;Row&nbsp;Pins
-        </button>
-      </div>
-
-      {/* grid */}
+      {/* Grade de dados AG Grid */}
       <div className="ag-theme-alpine h-[650px] w-full">
         <AgGridReact
           ref={gridRef}
-          onGridReady={({ api }) => (apiRef.current = api)}
+          onGridReady={({ api }) => (gridApiRef.current = api)}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          rowData={rowData}
+          rowData={data}
           pinnedTopRowData={pinnedTopRows}
           theme={themeAlpine}
-          rowSelection={{ type: "single" }}
+          rowSelection="single"
         />
       </div>
     </div>
