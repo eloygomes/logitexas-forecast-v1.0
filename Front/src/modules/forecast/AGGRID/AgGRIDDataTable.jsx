@@ -209,11 +209,13 @@
 
 import React, { useRef, useMemo, useCallback, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+// import "ag-grid-community/styles/ag-grid.css";
+// import "ag-grid-community/styles/ag-theme-alpine.css";
 
-import { ClientSideRowModelModule, ModuleRegistry } from "ag-grid-community";
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
+import { themeAlpine } from "ag-grid-community";
+
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
   /* refs */
@@ -297,16 +299,24 @@ export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
     apiRef.current?.applyColumnState({ defaultState: { pinned: null } });
   }, []);
 
-  // linhas
-  const pinRowsToFocused = () => {
-    const focused = apiRef.current?.getFocusedCell();
+  const pinRowToFocused = () => {
+    const api = apiRef.current;
+    if (!api) return;
+
+    const focused = api.getFocusedCell();
     if (!focused) return;
-    const rows = [];
-    for (let i = 0; i <= focused.rowIndex; i++) {
-      const node = apiRef.current.getDisplayedRowAtIndex(i);
-      if (node) rows.push({ ...node.data });
-    }
-    setPinnedTopRows(rows);
+
+    const node = api.getDisplayedRowAtIndex(focused.rowIndex);
+    if (!node) return;
+
+    setPinnedTopRows((prev) => {
+      // evita duplicar a mesma linha (use a chave única que existir no seu dataset)
+      const isAlreadyPinned = prev.some((r) => r.id === node.data.id);
+      if (isAlreadyPinned) return prev;
+
+      // mantém a ordem original (pode inverter se quiser novas no topo)
+      return [...prev, { ...node.data }];
+    });
   };
 
   const clearPinnedRows = () => setPinnedTopRows([]);
@@ -331,10 +341,10 @@ export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
           Clear&nbsp;Column&nbsp;Pins
         </button>
         <button
-          onClick={pinRowsToFocused}
+          onClick={pinRowToFocused}
           className="rounded bg-blue-700 px-3 py-1 text-sm text-white hover:bg-blue-800"
         >
-          Freeze&nbsp;Rows
+          Freeze&nbsp;Row
         </button>
         <button
           onClick={clearPinnedRows}
@@ -352,8 +362,9 @@ export function AgGRIDDataTable({ columns, data, cardTitle = "" }) {
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           rowData={rowData}
-          rowSelection="single"
           pinnedTopRowData={pinnedTopRows}
+          theme={themeAlpine}
+          rowSelection={{ type: "single" }}
         />
       </div>
     </div>
