@@ -129,7 +129,7 @@ export default function UC() {
     <div className="px-4 pt-6">
       <div className="sm:px-8 md:px-8 lg:px-8 xl:px-8 2xl:px-8">
         <h1 className="text-white text-4xl sm:pl-2 md:pl-10 lg:pl-10 xl:pl-0 pt-10">
-          Media Center
+          Forecast
         </h1>
         <p className="text-white my-5 text-sm sm:pl-2 md:pl-10 lg:pl-10 xl:pl-0">
           Upload and manage your media content
