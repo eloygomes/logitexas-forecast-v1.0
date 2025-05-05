@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import {
   ModuleRegistry,
@@ -20,6 +20,9 @@ export function AgGRIDDataTable({
   pinFocusedColumn,
   apiReff,
   onCellValueChanged,
+  isFilterOn,
+  headerNames = {}, // novo prop para mapeamento manual
+  headerStyles = {}, // mapeamento de estilos para headers
 }) {
   const gridRef = useRef(null);
   const gridApiRef = apiReff;
@@ -29,10 +32,14 @@ export function AgGRIDDataTable({
     () =>
       columns.map((col) => {
         const def = {
-          headerName: col.header || col.label,
+          headerName: headerNames[col.accessorKey] ?? col.header ?? col.label,
           field: col.accessorKey,
           width: col.width ? parseInt(col.width, 10) : 150,
         };
+        // Aplicar estilo personalizado ao header, se fornecido
+        if (headerStyles[col.accessorKey]) {
+          def.headerStyle = headerStyles[col.accessorKey];
+        }
 
         if (col.accessorKey === "price") {
           def.valueFormatter = ({ value }) =>
@@ -60,21 +67,401 @@ export function AgGRIDDataTable({
             flex: 1,
           };
         }
+        if (col.accessorKey === "Q1_NAM_Total_estoque_cliente_PÇS_") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_NAM_Estoque_Projetado") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_NAM_Estoque_Ajustado") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_NAM_WOH") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Abril") {
+          def.width = 100;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Maio") {
+          def.width = 100;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Junho") {
+          def.width = 100;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Forecast_Q1") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Total_Q1_ano_anterior") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Forecast_Q1_Evento_Q1") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q1_Variação_YoY") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ffd90040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Estoque_Projetado") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_WOH") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Julho") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Agosto") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Setembro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Forecast_Q2") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Total_Q2_ano_anterior") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Forecast_Q2_Evento_Q2") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q2_Variação_YoY") {
+          def.width = 100;
+          def.cellStyle = {
+            backgroundColor: "#40ff0040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Estoque_Projetado") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_WOH") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Outubro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Novembro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Dezembro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Forecast_Q3") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Total_Q3_ano_anterior") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Forecast_Q3_Evento_Q3") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q3_Variação_YoY") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#00c8ff40",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Estoque_Projetado") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_WOH") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Janeiro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Fevereiro") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Março") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Forecast_Q4") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Total_Q4_ano_anterior") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Forecast_Q4_Evento_Q4") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+        if (col.accessorKey === "Q4_Variação_YoY") {
+          def.width = 150;
+          def.cellStyle = {
+            backgroundColor: "#ff910040",
+            color: "#333",
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          };
+        }
+
         return def;
       }),
-    [columns]
+    [columns, headerNames, headerStyles]
   );
 
-  // Definições padrão de coluna
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
       resizable: true,
-      filter: true,
+      filter: isFilterOn,
       editable: true,
       minWidth: 80,
     }),
-    []
+    [isFilterOn]
   );
 
   return (

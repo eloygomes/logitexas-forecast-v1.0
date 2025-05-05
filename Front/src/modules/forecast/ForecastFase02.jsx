@@ -29,6 +29,8 @@ export default function ForecastFase02() {
   const [dataState, setDataState] = useState([]);
   const [pinnedTopRows, setPinnedTopRows] = useState([]);
 
+  const [isFilterOn, setIsFilterOn] = useState(false);
+
   // Quando o componente monta, pega a largura do primeiro card
   useEffect(() => {
     if (firstCardRef.current) {
@@ -308,6 +310,8 @@ export default function ForecastFase02() {
           onPinRow={pinRowToFocused}
           onClearColumns={clearPinnedColumns}
           onClearRows={clearPinnedRows}
+          isFilterOn={isFilterOn}
+          setIsFilterOn={setIsFilterOn}
         />
         {/* <ForecastHeader dataState={dataState} /> */}
         <div className="w-full flex flex-row text-white bg-gray-600 rounded-b-lg px-5 py-1 ">
@@ -361,6 +365,135 @@ export default function ForecastFase02() {
             onPinRow={pinRowToFocused}
             onClearRows={clearPinnedRows}
             onCellValueChanged={handleCellValueChanged}
+            isFilterOn={isFilterOn}
+            headerNames={{
+              Part_Number: "Part Number",
+              MKT_Name: "MKT Name",
+              Runrate_NPI: "Runrate NPI",
+              Product_Group: "Product Group",
+              Q1_NAM_Total_estoque_cliente_PÇS_:
+                "NAM Total estoque cliente PÇS ",
+              Q1_NAM_Estoque_Projetado: "NAM Estoque Projetado",
+              Q1_NAM_Estoque_Ajustado: "NAM Estoque Ajustado",
+              Q1_NAM_WOH: "NAM WOH",
+              Q1_Abril: "Abril",
+              Q1_Maio: "Maio",
+              Q1_Junho: "Junho",
+              Q1_Forecast_Q1: "Forecast Q1",
+              Q1_Total_Q1_ano_anterior: "Total Q1 ano anterior",
+              Q1_Forecast_Q1_Evento_Q1: "Forecast Q1 Evento Q1",
+              Q1_Variação_YoY: "Variação YoY",
+              Q2_Estoque_Projetado: "Estoque Projetado",
+              Q2_WOH: "WOH",
+              Q2_Julho: "Julho",
+              Q2_Agosto: "Agosto",
+              Q2_Setembro: "Setembro",
+              Q2_Forecast_Q2: "Forecast Q2",
+              Q2_Total_Q2_ano_anterior: "Total Q2 ano anterior",
+              Q2_Forecast_Q2_Evento_Q2: "Forecast Q2 Evento Q2",
+              Q2_Variação_YoY: "Variação YoY",
+              Q3_Estoque_Projetado: "Estoque Projetado",
+              Q3_WOH: "WOH",
+              Q3_Outubro: "Outubro",
+              Q3_Novembro: "Novembro",
+              Q3_Dezembro: "Dezembro",
+              Q3_Forecast_Q3: "Forecast Q3",
+              Q3_Total_Q3_ano_anterior: "Total Q3 ano anterior",
+              Q3_Forecast_Q3_Evento_Q3: "Forecast Q3 Evento Q3",
+              Q3_Variação_YoY: "Variação YoY",
+              Q4_Estoque_Projetado: "Estoque Projetado",
+              Q4_WOH: "WOH",
+              Q4_Janeiro: "Janeiro",
+              Q4_Fevereiro: "Fevereiro",
+              Q4_Março: "Março",
+              Q4_Forecast_Q4: "Forecast Q4",
+              Q4_Total_Q4_ano_anterior: "Total Q4 ano anterior",
+              Q4_Forecast_Q4_Evento_Q4: "Forecast Q4 Evento Q4",
+              Q4_Variação_YoY: "Variação YoY",
+            }}
+            headerStyles={{
+              // Part_Number: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_NAM_Total_estoque_cliente_PÇS_: {
+                backgroundColor: "#ffd700",
+                color: "#000",
+              },
+              Q1_NAM_Estoque_Projetado: {
+                backgroundColor: "#ffd700",
+                color: "#000",
+              },
+              Q1_NAM_Estoque_Ajustado: {
+                backgroundColor: "#ffd700",
+                color: "#000",
+              },
+              Q1_NAM_WOH: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_Abril: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_Maio: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_Junho: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_Forecast_Q1: { backgroundColor: "#ffd700", color: "#000" },
+              Q1_Total_Q1_ano_anterior: {
+                backgroundColor: "#ffd700",
+                color: "#000",
+              },
+              Q1_Forecast_Q1_Evento_Q1: {
+                backgroundColor: "#ffd700",
+                color: "#000",
+              },
+              Q1_Variação_YoY: { backgroundColor: "#ffd700", color: "#000" },
+              Q2_Estoque_Projetado: {
+                backgroundColor: "#40ff00",
+                color: "#000",
+              },
+              Q2_WOH: { backgroundColor: "#40ff00", color: "#000" },
+              Q2_Julho: { backgroundColor: "#40ff00", color: "#000" },
+              Q2_Agosto: { backgroundColor: "#40ff00", color: "#000" },
+              Q2_Setembro: { backgroundColor: "#40ff00", color: "#000" },
+              Q2_Forecast_Q2: { backgroundColor: "#40ff00", color: "#000" },
+              Q2_Total_Q2_ano_anterior: {
+                backgroundColor: "#40ff00",
+                color: "#000",
+              },
+              Q2_Forecast_Q2_Evento_Q2: {
+                backgroundColor: "#40ff00",
+                color: "#000",
+              },
+              Q2_Variação_YoY: { backgroundColor: "#40ff00", color: "#000" },
+              Q3_Estoque_Projetado: {
+                backgroundColor: "#00c8ff",
+                color: "#000",
+              },
+              Q3_WOH: { backgroundColor: "#00c8ff", color: "#000" },
+              Q3_Outubro: { backgroundColor: "#00c8ff", color: "#000" },
+              Q3_Novembro: { backgroundColor: "#00c8ff", color: "#000" },
+              Q3_Dezembro: { backgroundColor: "#00c8ff", color: "#000" },
+              Q3_Forecast_Q3: { backgroundColor: "#00c8ff", color: "#000" },
+              Q3_Total_Q3_ano_anterior: {
+                backgroundColor: "#00c8ff",
+                color: "#000",
+              },
+              Q3_Forecast_Q3_Evento_Q3: {
+                backgroundColor: "#00c8ff",
+                color: "#000",
+              },
+              Q3_Variação_YoY: { backgroundColor: "#00c8ff", color: "#000" },
+              Q4_Estoque_Projetado: {
+                backgroundColor: "#ff9100",
+                color: "#000",
+              },
+              Q4_WOH: { backgroundColor: "#ff9100", color: "#000" },
+              Q4_Janeiro: { backgroundColor: "#ff9100", color: "#000" },
+              Q4_Fevereiro: { backgroundColor: "#ff9100", color: "#000" },
+              Q4_Março: { backgroundColor: "#ff9100", color: "#000" },
+              Q4_Forecast_Q4: { backgroundColor: "#ff9100", color: "#000" },
+              Q4_Total_Q4_ano_anterior: {
+                backgroundColor: "#ff9100",
+                color: "#000",
+              },
+              Q4_Forecast_Q4_Evento_Q4: {
+                backgroundColor: "#ff9100",
+                color: "#000",
+              },
+              Q4_Variação_YoY: { backgroundColor: "#ff9100", color: "#000" },
+            }}
           />
         )}
       </div>

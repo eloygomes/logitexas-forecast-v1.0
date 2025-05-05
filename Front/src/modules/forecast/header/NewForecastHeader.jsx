@@ -25,6 +25,8 @@ export default function NewForecastHeader({
   onPinRow,
   onClearColumns,
   onClearRows,
+  isFilterOn,
+  setIsFilterOn,
 }) {
   const [clients, setClients] = useState([]);
   const [partNumbers, setPartNumbers] = useState([]);
@@ -299,7 +301,13 @@ export default function NewForecastHeader({
 
   return (
     <>
-      <Drawer isOpen={isOpen} setIsOpen={setIsOpen} Content={drawerContent} />
+      <Drawer
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        Content={drawerContent}
+        isFilterOn={isFilterOn}
+        setIsFilterOn={setIsFilterOn}
+      />
       <div className="flex flex-col h-full  ">
         <div className="flex flex-row text-white mb-5">
           <div className="w-1/2">
@@ -350,6 +358,8 @@ export default function NewForecastHeader({
                     drawerContentContent={
                       <FilterGroup fetchInitialData={fetchInitialData} />
                     }
+                    isFilterOn={isFilterOn}
+                    setIsFilterOn={setIsFilterOn}
                   />
                 </div>
               </div>

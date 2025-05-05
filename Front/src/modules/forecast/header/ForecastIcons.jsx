@@ -12,6 +12,8 @@ export default function ForecastIcons({
   size = 16,
   setDrawerContent,
   drawerContentContent,
+  isFilterOn,
+  setIsFilterOn,
 }) {
   return (
     <div className="flex flex-col items-start">
@@ -28,7 +30,10 @@ export default function ForecastIcons({
           }
           fn && fn();
           if (text === "Files") {
-            navigate(`/mediaCentral`);
+            navigate(`/Forecast`);
+          }
+          if (text === "Filter") {
+            setIsFilterOn(!isFilterOn);
           }
           // Content={<FilterGroup fetchInitialData={fetchInitialData} />}
         }}

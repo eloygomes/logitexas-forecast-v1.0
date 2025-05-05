@@ -9,6 +9,8 @@ export default function Accord({
   onPinRow,
   onClearColumns,
   onClearRows,
+  isFilterOn,
+  setIsFilterOn,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,6 +60,8 @@ export default function Accord({
             onPinRow={onPinRow}
             onClearColumns={onClearColumns}
             onClearRows={onClearRows}
+            isFilterOn={isFilterOn}
+            setIsFilterOn={setIsFilterOn}
           />
         </div>
       )}
